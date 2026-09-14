@@ -1,15 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
+import { Navbar } from "@/components/Navbar";
 import { SiteFooterSection } from "./sections/SiteFooterSection";
-
-const navItems = [
-  { label: "HOME", href: "/#hero" },
-  { label: "ABOUT", href: "/about" },
-  { label: "PORTFOLIO", href: "/#portfolio" },
-  { label: "WEDDING STORIES", href: "/#wedding-stories" },
-  { label: "BEHIND THE SCENES", href: "/#behind-the-scenes" },
-  { label: "CONTACT US", href: "/#contact" },
-];
 
 const values = [
   {
@@ -29,44 +20,10 @@ const values = [
   },
 ];
 
-const AboutHeader = () => (
-  <header className="flex h-20 w-full items-center bg-primary-systemivory">
-    <div className="mx-auto flex h-full w-full max-w-[1440px] items-center justify-between px-6 lg:px-20">
-      <Link href="/" aria-label="Newace home">
-        <img
-          className="h-[84.8px] w-40 shrink-0"
-          alt="Newace logo"
-          src="/figmaAssets/newace-logo-transparent-1--vectorized-.svg"
-        />
-      </Link>
-      <nav className="hidden items-center gap-8 lg:flex" aria-label="Main navigation">
-        {navItems.map((item) => (
-          <a
-            key={item.label}
-            href={item.href}
-            className="flex h-[34px] items-center px-2 font-web-label-s text-xs font-medium leading-[1.4] text-primary-systemcoal transition-colors hover:text-primary-systemwarm-gray"
-          >
-            {item.label}
-          </a>
-        ))}
-        <Button asChild variant="outline" className="h-11 rounded-none border-primary-systemcoal bg-transparent px-8 text-xs font-medium hover:bg-primary-systemcoal hover:text-primary-systemivory">
-          <a href="/#contact">ENQUIRE</a>
-        </Button>
-      </nav>
-      <a
-        href="/#contact"
-        className="flex h-11 items-center border border-primary-systemcoal px-6 font-web-label-s text-xs font-medium text-primary-systemcoal lg:hidden"
-      >
-        ENQUIRE
-      </a>
-    </div>
-  </header>
-);
-
 export const About = (): JSX.Element => {
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-primary-systemivory text-primary-systemcoal">
-      <AboutHeader />
+      <Navbar />
       <main>
         <section className="bg-primary-systembeige px-6 py-16 md:px-12 lg:px-[100px] lg:py-[100px]">
           <div className="mx-auto max-w-[1240px]">
