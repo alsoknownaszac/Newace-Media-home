@@ -18,7 +18,7 @@ import { WeddingStoryCallToActionSection } from "./sections/WeddingStoryCallToAc
 
 const navigationItems = [
   { label: "HOME", id: "hero" },
-  { label: "ABOUT", id: "about" },
+  { label: "ABOUT", id: "about", href: "/about" },
   { label: "PORTFOLIO", id: "portfolio" },
   { label: "WEDDING STORIES", id: "wedding-stories" },
   { label: "BEHIND THE SCENES", id: "behind-the-scenes" },
@@ -49,7 +49,11 @@ export const Home = (): JSX.Element => {
                   <NavigationMenuLink asChild>
                     <button
                       type="button"
-                      onClick={() => scrollToSection(item.id)}
+                      onClick={() =>
+                        item.href
+                          ? (window.location.href = item.href)
+                          : scrollToSection(item.id)
+                      }
                       data-testid={`nav-link-${item.id}`}
                       className="flex h-[34px] items-center justify-center px-2 font-web-label-s text-[length:var(--web-label-s-font-size)] font-[number:var(--web-label-s-font-weight)] leading-[var(--web-label-s-line-height)] tracking-[var(--web-label-s-letter-spacing)] text-primary-systemcoal [font-style:var(--web-label-s-font-style)] transition-colors hover:text-primary-systemwarm-gray focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >

@@ -2,14 +2,14 @@ import { Button } from "@/components/ui/button";
 
 const primaryNavigationColumns = [
   [
-    { label: "Home", id: "hero" },
-    { label: "Portfolio", id: "portfolio" },
-    { label: "Contact", id: "contact" }
+    { label: "Home", id: "hero", href: "/#hero" },
+    { label: "Portfolio", id: "portfolio", href: "/#portfolio" },
+    { label: "Contact", id: "contact", href: "/#contact" }
   ],
   [
-    { label: "About", id: "about" },
-    { label: "Wedding Stories", id: "wedding-stories" },
-    { label: "Behind The Scenes", id: "behind-the-scenes" }
+    { label: "About", id: "about", href: "/about" },
+    { label: "Wedding Stories", id: "wedding-stories", href: "/#wedding-stories" },
+    { label: "Behind The Scenes", id: "behind-the-scenes", href: "/#behind-the-scenes" }
   ],
 ];
 
@@ -104,7 +104,17 @@ export const SiteFooterSection = (): JSX.Element => {
                     key={item.label}
                     type="button"
                     variant="ghost"
-                    onClick={() => scrollToSection(item.id)}
+                    onClick={() => {
+                      if (item.href === "/about") {
+                        window.location.href = item.href;
+                        return;
+                      }
+                      if (window.location.pathname !== "/") {
+                        window.location.href = item.href;
+                        return;
+                      }
+                      scrollToSection(item.id);
+                    }}
                     data-testid={`footer-nav-${item.id}`}
                     className={`transition-colors hover:text-primary-systembeige focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-systemivory focus-visible:ring-offset-2 focus-visible:ring-offset-primary-systemcoal ${headingLinkClassName}`}
                   >
