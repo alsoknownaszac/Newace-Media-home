@@ -1,0 +1,108 @@
+module.exports = {
+  content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{html,js,ts,jsx,tsx}",
+    "app/**/*.{ts,tsx}",
+    "components/**/*.{ts,tsx}",
+  ],
+  corePlugins: { preflight: true },
+  theme: {
+    extend: {
+      colors: {
+        "coal-400": "var(--coal-400)",
+        "editorial-accentsburgundy": "var(--editorial-accentsburgundy)",
+        "primary-systembeige": "var(--primary-systembeige)",
+        "primary-systemcoal": "var(--primary-systemcoal)",
+        "primary-systemfairy": "var(--primary-systemfairy)",
+        "primary-systemivory": "var(--primary-systemivory)",
+        "primary-systemmid-gray": "var(--primary-systemmid-gray)",
+        "primary-systemwarm-gray": "var(--primary-systemwarm-gray)",
+        "systemorange-light": "var(--systemorange-light)",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      fontFamily: {
+        "mobile-heading-h1": "var(--mobile-heading-h1-font-family)",
+        "mobile-heading-h3-itallics":
+          "var(--mobile-heading-h3-itallics-font-family)",
+        "mobile-heading-h4": "var(--mobile-heading-h4-font-family)",
+        "web-body-l": "var(--web-body-l-font-family)",
+        "web-body-m": "var(--web-body-m-font-family)",
+        "web-body-s": "var(--web-body-s-font-family)",
+        "web-body-XS": "var(--web-body-XS-font-family)",
+        "web-caption": "var(--web-caption-font-family)",
+        "web-display-l": "var(--web-display-l-font-family)",
+        "web-display-l2": "var(--web-display-l2-font-family)",
+        "web-display-XL": "var(--web-display-XL-font-family)",
+        "web-display-XXL": "var(--web-display-XXL-font-family)",
+        "web-heading-h1": "var(--web-heading-h1-font-family)",
+        "web-heading-h2": "var(--web-heading-h2-font-family)",
+        "web-heading-h3": "var(--web-heading-h3-font-family)",
+        "web-heading-h4": "var(--web-heading-h4-font-family)",
+        "web-label-m": "var(--web-label-m-font-family)",
+        "web-label-s": "var(--web-label-s-font-family)",
+        sans: [
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+          '"Noto Color Emoji"',
+        ],
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+    },
+    container: { center: true, padding: "2rem", screens: { "2xl": "1400px" } },
+  },
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  darkMode: ["class"],
+};
