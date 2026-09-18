@@ -29,8 +29,9 @@ node trees rather than the repo export.
 | Wedding story details — mobile | `344-2553` | `/wedding-stories/[slug]` | ⛔ structural base |
 | Contact us — desktop | `131-874` | `/contact` | ✅ built from the export (form) |
 | Contact us — mobile | `344-3068` | `/contact` | ✅ responsive rules in place |
-| Behind the scenes — desktop 1 | `181-1478` | `/behind-the-scenes` | ✅ heading + cards from the export; 🟡 page wrapper assumed |
-| Behind the scenes — mobile 1 | `344-3243` | `/behind-the-scenes` | ✅ same |
+| Behind the scenes — desktop 1 | `181-1478` | `/behind-the-scenes` | ✅ hero, featured media (`190-1398`) and the sliding "Latest Behind the Scenes" rail (`181-1515`) |
+| Behind the scenes — mobile 1 | `344-3243` | `/behind-the-scenes` | ✅ same, plus the pagination card (`393-6565`) that drives the mobile rail |
+| Behind the scenes — pagination (mobile) | `393-6565` | `/behind-the-scenes` | ✅ built and wired to the rail |
 | Behind the scenes — desktop 2 (image clicked) | `393-6961` | `/behind-the-scenes` overlay | 🟡 **interaction built**, chrome assumed |
 | Behind the scenes — mobile 2 (image clicked) | `393-6740` | `/behind-the-scenes` overlay | 🟡 same |
 
@@ -68,6 +69,45 @@ padding (1062px total); mobile four full-bleed 240px photos on 12px gaps with 60
 below (1056px total). The grid has no viewer frame in the design, so it renders as a
 decorative image grid — pass `interactive` to switch on the lightbox.
 
+### Latest pass — the Behind the Scenes rail and its pagination
+
+The second section on `/behind-the-scenes` was a two-by-two static grid. In the file it
+is a rail: `181:1515` desktop, `344:3309` + `393:6565` mobile. It is now a continuously
+sliding, never-ending carousel.
+
+| File | Purpose |
+| --- | --- |
+| `src/components/sections/latest-bts-carousel.tsx` | Desktop rail + mobile paged carousel + the pagination card, one client component so the pager can drive the rail. |
+| `src/components/sections/bts-featured.tsx` | The featured media that sits above the rail (node `190:1398`), unchanged in behaviour. Replaces `bts-gallery.tsx`, which also held the old grid. |
+| `src/content/bts.ts` | `latestBtsMedia` grown to the twenty items the design's pager is written against, each with its real intrinsic size, plus `latestBtsCarousel` for the geometry. |
+| `public/images/bts/5d81f6d0.webp` | The one thumbnail the design actually specifies, re-encoded from Figma. |
+
+Desktop, measured in headless Chrome at 1440px: the section is **783px** tall (the file's
+`1440x783`) with its header at 75px and slides of exactly **333x500** on 32px gaps inside
+a **1280px** window starting at x=80 — the fifth slide is clipped, exactly as drawn. The
+rail is two copies of the twenty slides animated with the project's existing
+`animate-marquee` utility (`--duration` / `--gap`), and a copy measures 7268px =
+20×333 + 19×32, so each copy travels its own width plus one gap and copy two lands
+precisely where copy one started: the loop is seamless and never ends. Sampling the
+transform 2.5s apart shows it moving at ~101px/s. Hovering pauses it so a slide can be
+clicked; `prefers-reduced-motion` stops the animation.
+
+Mobile, measured at 390px: the section is **390x890** — the file's exact size — as three
+rows of two **167x251** cards on a **16px** column gap and a **24px** row gap, split into
+pages of six and slid horizontally. The pagination card below reproduces `393:6565`
+(40x40 beige previous/next, 32x32 numbered squares, coal for the active page, a 1px
+`#e7e3dc` rule and the two counters) and drives the rail: clicking Next reports
+"Page 2 of 4 / 7-12 of 20" and moves the track one page, and it clamps at the last page.
+Swiping the cards does the same thing.
+
+**One deliberate deviation.** The design's pagination reads "Page 1 of 10" and
+"1-4 of 20" — which contradict each other (20 items at 4 per page is five pages, not
+ten), so those strings are placeholder copy from a reused component. The counters here
+are computed from the real list instead, and the page buttons implement the design's
+`1 2 3 4 … 10` window-with-a-gap as soon as there are more than six pages. Showing six
+cards per page keeps the mobile section the file's exact 890px height; `PER_PAGE` in
+`latest-bts-carousel.tsx` is the single knob if two per page is preferred.
+
 ## Verification
 
 | Check | Result |
@@ -76,7 +116,7 @@ decorative image grid — pass `interactive` to switch on the lightbox.
 | `pnpm lint` | ✅ 0 errors, 0 warnings |
 | `pnpm build` | ✅ 19 static pages, incl. `/wedding-stories` and both `[slug]` pages (SSG) |
 | `/portfolio` | ✅ 200, 13 overlay triggers in the HTML |
-| `/behind-the-scenes` | ✅ 200, 2 overlay triggers |
+| `/behind-the-scenes` | ✅ 200 — hero, featured media, 20-slide rail ×2 copies, mobile pagination |
 | `/wedding-stories` | ✅ 200 — hero, 6 story cards, 18 photo-grid photos (14 desktop + 4 mobile), form |
 | `/wedding-stories/john-paul-millicent` | ✅ 200, 6 overlay triggers |
 | `/wedding-stories/unknown-slug` | ✅ 404 |

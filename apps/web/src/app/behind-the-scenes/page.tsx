@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 
-import { BtsGallery } from "@/components/sections/bts-gallery";
+import { BtsFeatured } from "@/components/sections/bts-featured";
 import { ClosingCtaSection } from "@/components/sections/closing-cta-section";
+import { LatestBtsCarousel } from "@/components/sections/latest-bts-carousel";
 import { StoryCard } from "@/components/sections/story-card";
 import { btsIntro } from "@/content/bts";
 import { weddingStories } from "@/content/stories";
 
 /**
  * BEHIND THE SCENES (Behind the Lens) - rebuilt 1:1 from Figma node 181:1478
- * (desktop) / 344:3243 (mobile): hero → featured media → "Latest Behind the
- * Scenes" grid → "Wedding Stories" teaser → closing CTA.
+ * (desktop) / 344:3243 (mobile): hero → featured media (190:1398) → the
+ * continuously sliding "Latest Behind the Scenes" rail (181:1515, with the
+ * pagination card 393:6565 on mobile) → "Wedding Stories" teaser → closing CTA.
  */
 export const metadata: Metadata = {
   title: "Behind the Scenes",
@@ -38,8 +40,11 @@ export default function BehindTheScenesPage() {
         </p>
       </section>
 
-      {/* Featured media + Latest Behind the Scenes (click to open viewer) */}
-      <BtsGallery />
+      {/* Featured media - node 190:1398 (1440x550 on beige) */}
+      <BtsFeatured />
+
+      {/* Latest Behind the Scenes - node 181:1515 desktop, 344:3309 + 393:6565 mobile */}
+      <LatestBtsCarousel />
 
       {/* Wedding Stories teaser - node 181:1478 "Hero Section" + "manifesto-section" */}
       <section className="flex w-full flex-col items-center gap-5 px-5 pb-10 pt-6 lg:gap-6 lg:px-20 lg:pb-16 lg:pt-24">
