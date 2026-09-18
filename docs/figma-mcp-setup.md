@@ -9,10 +9,9 @@ Verified against Figma's official documentation on 16 Sep 2026:
 The Figma MCP server gives an AI agent **the actual design data** — layer tree,
 x/y, width/height, fills, font family/weight/size, line-height, letter-spacing and
 every text string — instead of a picture. That is precisely why the Home and About
-pages came out of Replit looking exact: Replit's Figma integration had this same
-data. It is also the only way I can build Portfolio / Wedding Stories / the two
-overlays at replica fidelity, because I cannot open your private file (403) and I
-have no image input.
+pages could be rebuilt exactly: the same data fed the original build. It is also the
+only way I can build Portfolio / Wedding Stories / the two overlays at replica
+fidelity, because I cannot open your private file (403) and I have no image input.
 
 ## Requirements (verbatim from Figma)
 
@@ -113,7 +112,8 @@ Steps:
 
 Trade-offs, stated honestly: this server reads your file through the Figma REST API,
 so **it holds your token and sees the design data** — that is why it feels like the
-Replit integration. Installs count for nothing here; only you and I see the output.
+integration the original build used. Installs count for nothing here; only you and I
+see the output.
 
 ## Which option should you pick?
 

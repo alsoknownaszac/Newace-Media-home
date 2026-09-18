@@ -11,7 +11,7 @@ Nothing in the repo was removed to make this migration work.
 
 ## 1. What existed before
 
-A Replit-style pnpm workspace containing a Vite 7 + React 18 SPA served by an
+A pnpm workspace containing a Vite 7 + React 18 SPA served by an
 Express 5 wrapper, plus scaffolding that was never connected to the product:
 
 ```
@@ -159,7 +159,7 @@ Each item below is a behaviour or fidelity decision, not an accident.
 
 `pnpm-workspace.yaml` deleted the **macOS binaries of the native toolchain**
 (`esbuild>@esbuild/darwin-*`, `lightningcss-darwin-*`,
-`@tailwindcss/oxide-darwin-*`, `rollup>@rollup/rollup-darwin-*`) because Replit
+`@tailwindcss/oxide-darwin-*`, `rollup>@rollup/rollup-darwin-*`) because the host
 builds on linux-x64. On a Mac that makes `pnpm install` produce a toolchain that
 cannot run — the first thing this migration hit. Those eight override lines were
 removed (with a comment explaining why), and `sharp` + `@tailwindcss/oxide` were
@@ -182,9 +182,6 @@ dead weight for the site — remove them once the port is signed off:
   journal entries are going to be stored in Postgres.
 - `.migration-backup/` — the pre-migration copy of the old app, including a
   308 KB `package-lock.json`. Safe to delete.
-- `.replit`, `replit.md`, `scripts/post-merge.sh` — Replit runtime metadata.
-  **`scripts/post-merge.sh` also calls `pnpm --filter db push`, which is wrong
-  (the package is `@workspace/db`) and needs `DATABASE_URL`.**
 - `screenshots/` — the 8 design-reference JPGs. Consider moving them to
   `docs/design-references/`.
 
@@ -247,7 +244,7 @@ Radix select), shared baseline 103 kB.
    spam strategy beyond the honeypot if volume warrants it.
 6. Deploy: the app is self-contained, so Vercel/Netlify work with no changes; on a
    Node host run `pnpm --filter @newace/web build && pnpm --filter @newace/web start`.
-   The old `.replit-artifact` service definitions only apply to the legacy app.
+   The legacy app's own service definitions do not apply to the Next app.
 7. Consider a sticky header and a scroll-reveal pass using the already-present
    `animate-fade-up` utility.
 

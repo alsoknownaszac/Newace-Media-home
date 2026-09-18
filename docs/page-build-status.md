@@ -182,8 +182,8 @@ Options B and C below stay as fallbacks.
 3. I then pull the exact node trees:
    `GET https://api.figma.com/v1/files/zInmwP1tMOAS0ulrBvfc9d/nodes?ids=154-917,344-2014,...`
    — positions, sizes, fills, fonts, every text string and image reference: the same
-   data the Replit Figma integration used to generate the existing pages. I can also
-   fetch rendered **SVG** for any frame (`/v1/images/...?format=svg`) and read it.
+   data that generated the existing pages. I can also fetch rendered **SVG** for any
+   frame (`/v1/images/...?format=svg`) and read it.
 
 ### Option B — Figma Dev Mode MCP server (local, no token handed over)
 
