@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { ContactSection } from "@/components/sections/contact-section";
 import { PhotoMasonry } from "@/components/sections/photo-masonry";
-import { StoryCard } from "@/components/sections/story-card";
+import { StoryGrid } from "@/components/sections/story-grid";
 import { weddingStories, weddingStoriesIntro } from "@/content/stories";
 import { storyGridMobileImages, storyGridRows } from "@/content/stories-grid";
 
@@ -35,14 +35,10 @@ export default function WeddingStoriesPage() {
         </p>
       </section>
 
-      {/* Story grid - node 178:738 "manifesto-section" (100/80 padding, 44px gaps) */}
-      <section className="px-5 pb-20 lg:px-[100px]">
-        <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-11 sm:grid-cols-2 lg:grid-cols-3">
-          {weddingStories.map((story) => (
-            <StoryCard key={story.slug} story={story} />
-          ))}
-        </div>
-      </section>
+      {/* Story grid - node 178:738 "manifesto-section" (100/80 padding, 44px gaps).
+          All six stories from lg up; three stories a page below lg, with the
+          shared pagination card (393:6565) underneath. */}
+      <StoryGrid stories={weddingStories} />
 
       {/* Photo grid - node 178:743 "enquire-drawer-section"
           (desktop 40px sides / 48px vertical; mobile full-bleed with 60px below) */}

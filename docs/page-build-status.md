@@ -20,11 +20,11 @@ node trees rather than the repo export.
 | About — desktop | `154-764` | `/about` | ✅ built from the export (`About.tsx`, 6 sections) |
 | About — mobile | `336-1714` | `/about` | ✅ responsive rules already in place |
 | Portfolio — desktop 1 | `154-917` | `/portfolio` | ✅ gallery grid from the export; 🟡 page heading/copy reconstructed (no page-level copy existed) |
-| Portfolio — mobile 1 | `344-2014` | `/portfolio` | ✅ same grid, responsive rules in place |
+| Portfolio — mobile 1 | `344-2014` | `/portfolio` | ✅ same grid, responsive rules in place; six photographs a page with the pagination card |
 | Portfolio — desktop 2 (image clicked) | `390-4967` | `/portfolio` overlay | 🟡 **interaction built**: click → full-screen overlay, Esc / arrows / swipe / counter |
 | Portfolio — mobile 2 (image clicked) | `390-5239` | `/portfolio` overlay | 🟡 same component, mobile controls + swipe |
 | Wedding stories — desktop | `178-738` | `/wedding-stories` | ✅ built from the design: hero, six-card grid (`178-788`), photo grid (`178-743`), form | 
-| Wedding stories — mobile | `344-2312` | `/wedding-stories` | ✅ same, responsive: photo grid is `344-2544` |
+| Wedding stories — mobile | `344-2312` | `/wedding-stories` | ✅ same, responsive: photo grid is `344-2544`; three stories a page with the pagination card |
 | Wedding story details — desktop | `178-1035` | `/wedding-stories/[slug]` | ⛔ structural base |
 | Wedding story details — mobile | `344-2553` | `/wedding-stories/[slug]` | ⛔ structural base |
 | Contact us — desktop | `131-874` | `/contact` | ✅ built from the export (form) |
@@ -108,6 +108,41 @@ are computed from the real list instead, and the page buttons implement the desi
 cards per page keeps the mobile section the file's exact 890px height; `PER_PAGE` in
 `latest-bts-carousel.tsx` is the single knob if two per page is preferred.
 
+### Latest pass — the pagination card reused across the site
+
+The pagination card (Figma `393:6565`) was extracted out of the Behind the Scenes rail
+so the other mobile grids use the same one, then wired into the Wedding Stories index
+and the portfolio.
+
+| File | Purpose |
+| --- | --- |
+| `src/components/ui/pagination-card.tsx` | The card itself: both counters, the 1px rule, previous/next and the numbered page window. Takes `page` / `pageCount` / `totalItems` / `perPage` / `onPageChange`. |
+| `src/hooks/use-paged-section.ts` | Page state plus the scroll handling these pagers need - they sit *below* the content they drive, so switching page scrolls the content back into view instead of changing something off-screen. |
+| `src/components/sections/story-grid.tsx` | The Wedding Stories grid. Below `lg`: **three stories a page**, paginated. From `lg`: all six, exactly as the desktop frame draws it. |
+| `src/components/sections/portfolio-photo-grid.tsx` | The portfolio grid. Desktop unchanged (all seven masonry rows). Below `lg`: **six photographs a page**, paginated. Only the mobile list is sliced; the desktop rows are the same on every page. |
+
+Measured in headless Chrome at 390px:
+
+| Page | Before | After |
+| --- | --- | --- |
+| `/wedding-stories` | all 6 stories | 3 visible — `john-paul-millicent`, `story-two`, `story-three` — "Page 1 of 2", "1-3 of 6", dots `1 2`; page 2 reports "4-6 of 6" |
+| `/portfolio` | all 34 photos | 6 visible in the mobile column — `1db4f5de … 552a4e59` — "Page 1 of 6", "1-6 of 34", dots `1 2 3 4 5 6`; page 2 is `1e6534c0 … a93c9b6e` with no overlap; page 6 reports "31-34 of 34" and Next is disabled |
+| `/behind-the-scenes` | 4 pages | unchanged: "Page 2 of 4", "7-12 of 20" |
+
+Both counters on both pages are computed from the real lists (`ceil(34 / 6)` = 6 pages,
+`ceil(6 / 3)` = 2 pages), so they stay correct as content is added. At 1440px the
+pagination is not rendered visible on any of the three pages and every item is on screen,
+which is what each desktop frame shows.
+
+Two notes on the implementation:
+
+- The story grid renders all six cards and hides the out-of-page ones rather than slicing
+  them, so every story stays in the served HTML for crawlers. All six are still in the
+  document (verified: `totalInDocument: 6` while three are visible).
+- The portfolio section dropped its 40px side padding below `lg` (`lg:px-10`). The mobile
+  frame draws that grid full-bleed at 390px, and the pagination card needs the full width
+  for its six page buttons.
+
 ## Verification
 
 | Check | Result |
@@ -118,6 +153,9 @@ cards per page keeps the mobile section the file's exact 890px height; `PER_PAGE
 | `/portfolio` | ✅ 200, 13 overlay triggers in the HTML |
 | `/behind-the-scenes` | ✅ 200 — hero, featured media, 20-slide rail ×2 copies, mobile pagination |
 | `/wedding-stories` | ✅ 200 — hero, 6 story cards, 18 photo-grid photos (14 desktop + 4 mobile), form |
+| `/wedding-stories` @390 | ✅ 3 stories per page, "Page 1 of 2" / "1-3 of 6", 2 page buttons; page 2 = 4-6 |
+| `/portfolio` @390 | ✅ 6 photos per page, "Page 1 of 6" / "1-6 of 34", 6 page buttons; page 6 = 31-34 |
+| `/wedding-stories`, `/portfolio` @1440 | ✅ no pagination visible, every item on screen |
 | `/wedding-stories/john-paul-millicent` | ✅ 200, 6 overlay triggers |
 | `/wedding-stories/unknown-slug` | ✅ 404 |
 | `/sitemap.xml` | ✅ 8 URLs |

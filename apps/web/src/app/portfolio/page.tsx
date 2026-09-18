@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 
 import { ContactSection } from "@/components/sections/contact-section";
 import { JournalCards } from "@/components/sections/journal-cards";
-import { PhotoMasonry } from "@/components/sections/photo-masonry";
-import { portfolioGridRows, portfolioMobileImages } from "@/content/portfolio-grid";
+import { PortfolioPhotoGrid } from "@/components/sections/portfolio-photo-grid";
 
 /**
  * PORTFOLIO - page 3 of 5.
@@ -38,10 +37,10 @@ export default function PortfolioPage() {
         </p>
       </section>
 
-      {/* Photo grid - node 154:917 "enquire-drawer-section" (40/48px padding) */}
-      <section className="w-full px-10 py-12">
-        <PhotoMasonry rows={portfolioGridRows} mobileImages={portfolioMobileImages} interactive />
-      </section>
+      {/* Photo grid - node 154:917 "enquire-drawer-section" (40/48px padding).
+          All seven rows on desktop; six photographs a page below lg, with the
+          shared pagination card (393:6565) underneath. */}
+      <PortfolioPhotoGrid />
 
       {/* Stories / behind-the-scenes teaser - node 154:917 "Hero Section" + "manifesto-section" */}
       <section className="flex w-full flex-col items-center gap-5 px-5 pb-10 pt-6 lg:gap-6 lg:px-20 lg:pb-16 lg:pt-24">
