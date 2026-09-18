@@ -1,4 +1,5 @@
 import { site } from "@/content/site";
+import { getSiteUrl } from "@/lib/site-url";
 
 /**
  * Organization / LocalBusiness structured data.
@@ -8,7 +9,7 @@ import { site } from "@/content/site";
  * URLs and this markup follows.
  */
 export function LocalBusinessJsonLd() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.newacemedia.com";
+  const siteUrl = getSiteUrl();
 
   const data = {
     "@context": "https://schema.org",

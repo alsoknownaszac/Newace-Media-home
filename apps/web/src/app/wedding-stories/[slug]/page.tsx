@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { StoryCard } from "@/components/sections/story-card";
 import { getRelatedStories, getWeddingStory, weddingStories } from "@/content/stories";
+import { absoluteUrl } from "@/lib/site-url";
 
 /**
  * WEDDING STORY DETAIL - rebuilt 1:1 from Figma node 178:1035 (desktop) /
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: WeddingStoryPageProps): Promi
       title: story.title,
       description: story.intro,
       url: `/wedding-stories/${story.slug}`,
-      images: [{ url: story.featured.src, width: story.featured.width, height: story.featured.height }],
+      images: [{ url: absoluteUrl(story.featured.src), width: story.featured.width, height: story.featured.height }],
     },
   };
 }

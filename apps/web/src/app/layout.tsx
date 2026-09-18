@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { Toaster } from "@/components/ui/toaster";
 import { site } from "@/content/site";
+import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 /**
@@ -33,11 +34,10 @@ const label = Geist({
 });
 
 /**
- * TODO(content): confirm the production domain. It is inferred from the studio
- * email address (photos@newacemedia.com) and can be overridden per environment
- * with NEXT_PUBLIC_SITE_URL.
+ * The public origin is resolved through src/lib/site-url.ts (never throws).
+ * Override it per environment with NEXT_PUBLIC_SITE_URL.
  */
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.newacemedia.com";
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

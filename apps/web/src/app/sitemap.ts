@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 
 import { weddingStories } from "@/content/stories";
+import { getSiteUrl } from "@/lib/site-url";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.newacemedia.com";
+const siteUrl = getSiteUrl();
 
 /** One entry per page, plus one per wedding story. */
 export default function sitemap(): MetadataRoute.Sitemap {
