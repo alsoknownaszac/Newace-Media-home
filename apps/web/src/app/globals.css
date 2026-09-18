@@ -1,0 +1,426 @@
+@import "tailwindcss";
+/* Replaces tailwindcss-animate (v3 only): keeps the animate-in / fade-in-0 /
+   zoom-in-95 / slide-in-from-* utilities used by the shadcn/ui primitives. */
+@import "tw-animate-css";
+
+/* ==========================================================================
+   1. DESIGN TOKENS - Figma source of truth
+   --------------------------------------------------------------------------
+   Every value below is exported verbatim from the Newace Figma file. Components
+   consume them through Tailwind utilities via the `@theme inline` block in
+   section 2, so this layer stays the single source of truth.
+   ========================================================================== */
+
+:root {
+  /* ---- Colour system ---- */
+  --coal-400: rgba(58, 56, 53, 1);
+  --editorial-accentsburgundy: rgba(148, 63, 55, 1);
+  --primary-systembeige: rgba(231, 227, 220, 1);
+  --primary-systemcoal: rgba(23, 22, 21, 1);
+  --primary-systemfairy: rgba(255, 255, 255, 1);
+  --primary-systemivory: rgba(245, 242, 236, 1);
+  --primary-systemmid-gray: rgba(119, 115, 109, 1);
+  --primary-systemwarm-gray: rgba(166, 155, 141, 1);
+  --systemorange-light: rgba(255, 149, 0, 1);
+
+  /* ---- Font stacks -------------------------------------------------------
+     next/font (see app/layout.tsx) defines --font-next-* on <html>, which is
+     also :root, so the substitution below resolves. The inner fallback keeps
+     the design readable if the font variables are ever missing. */
+  --font-display-stack: var(--font-next-display, "Cormorant Garamond"), Helvetica, serif;
+  --font-body-stack: var(--font-next-body, Inter), Helvetica, sans-serif;
+  --font-label-stack: var(--font-next-label, Geist), Helvetica, sans-serif;
+
+  /* ---- Web type scale ---- */
+  --web-display-XXL-font-family: var(--font-display-stack);
+  --web-display-XXL-font-size: 64px;
+  --web-display-XXL-font-style: normal;
+  --web-display-XXL-font-weight: 400;
+  --web-display-XXL-letter-spacing: -0.64px;
+  --web-display-XXL-line-height: 100%;
+
+  --web-display-XL-font-family: var(--font-display-stack);
+  --web-display-XL-font-size: 48px;
+  --web-display-XL-font-style: normal;
+  --web-display-XL-font-weight: 400;
+  --web-display-XL-letter-spacing: 0px;
+  --web-display-XL-line-height: 115%;
+
+  --web-display-l-font-family: var(--font-display-stack);
+  --web-display-l-font-size: 40px;
+  --web-display-l-font-style: normal;
+  --web-display-l-font-weight: 400;
+  --web-display-l-letter-spacing: 0px;
+  --web-display-l-line-height: 110%;
+
+  --web-display-l2-font-family: var(--font-display-stack);
+  --web-display-l2-font-size: 40px;
+  --web-display-l2-font-style: italic;
+  --web-display-l2-font-weight: 400;
+  --web-display-l2-letter-spacing: 0px;
+  --web-display-l2-line-height: 100%;
+
+  --web-heading-h1-font-family: var(--font-display-stack);
+  --web-heading-h1-font-size: 36px;
+  --web-heading-h1-font-style: normal;
+  --web-heading-h1-font-weight: 400;
+  --web-heading-h1-letter-spacing: 0px;
+  --web-heading-h1-line-height: 120%;
+
+  --web-heading-h2-font-family: var(--font-display-stack);
+  --web-heading-h2-font-size: 30px;
+  --web-heading-h2-font-style: normal;
+  --web-heading-h2-font-weight: 400;
+  --web-heading-h2-letter-spacing: 0px;
+  --web-heading-h2-line-height: 125%;
+
+  --web-heading-h3-font-family: var(--font-display-stack);
+  --web-heading-h3-font-size: 24px;
+  --web-heading-h3-font-style: normal;
+  --web-heading-h3-font-weight: 400;
+  --web-heading-h3-letter-spacing: 0px;
+  --web-heading-h3-line-height: 130%;
+
+  --web-heading-h4-font-family: var(--font-display-stack);
+  --web-heading-h4-font-size: 18px;
+  --web-heading-h4-font-style: normal;
+  --web-heading-h4-font-weight: 400;
+  --web-heading-h4-letter-spacing: 0px;
+  --web-heading-h4-line-height: 135%;
+
+  --web-body-l-font-family: var(--font-body-stack);
+  --web-body-l-font-size: 20px;
+  --web-body-l-font-style: normal;
+  --web-body-l-font-weight: 400;
+  --web-body-l-letter-spacing: 0px;
+  --web-body-l-line-height: 160%;
+
+  --web-body-m-font-family: var(--font-body-stack);
+  --web-body-m-font-size: 18px;
+  --web-body-m-font-style: normal;
+  --web-body-m-font-weight: 400;
+  --web-body-m-letter-spacing: 0px;
+  --web-body-m-line-height: 160%;
+
+  --web-body-s-font-family: var(--font-body-stack);
+  --web-body-s-font-size: 16px;
+  --web-body-s-font-style: normal;
+  --web-body-s-font-weight: 400;
+  --web-body-s-letter-spacing: 0px;
+  --web-body-s-line-height: 155%;
+
+  --web-body-XS-font-family: var(--font-body-stack);
+  --web-body-XS-font-size: 14px;
+  --web-body-XS-font-style: normal;
+  --web-body-XS-font-weight: 400;
+  --web-body-XS-letter-spacing: 0px;
+  --web-body-XS-line-height: 150%;
+
+  --web-caption-font-family: var(--font-body-stack);
+  --web-caption-font-size: 12px;
+  --web-caption-font-style: normal;
+  --web-caption-font-weight: 400;
+  --web-caption-letter-spacing: 0px;
+  --web-caption-line-height: 150%;
+
+  --web-label-m-font-family: var(--font-body-stack);
+  --web-label-m-font-size: 14px;
+  --web-label-m-font-style: normal;
+  --web-label-m-font-weight: 500;
+  --web-label-m-letter-spacing: 0px;
+  --web-label-m-line-height: 140%;
+
+  --web-label-s-font-family: var(--font-body-stack);
+  --web-label-s-font-size: 12px;
+  --web-label-s-font-style: normal;
+  --web-label-s-font-weight: 500;
+  --web-label-s-letter-spacing: 0px;
+  --web-label-s-line-height: 140%;
+
+  /* ---- Mobile type scale ---- */
+  --mobile-heading-h1-font-family: var(--font-display-stack);
+  --mobile-heading-h1-font-size: 32px;
+  --mobile-heading-h1-font-style: normal;
+  --mobile-heading-h1-font-weight: 400;
+  --mobile-heading-h1-letter-spacing: 0px;
+  --mobile-heading-h1-line-height: 90%;
+
+  --mobile-heading-h3-itallics-font-family: var(--font-display-stack);
+  --mobile-heading-h3-itallics-font-size: 24px;
+  --mobile-heading-h3-itallics-font-style: italic;
+  --mobile-heading-h3-itallics-font-weight: 400;
+  --mobile-heading-h3-itallics-letter-spacing: 0px;
+  --mobile-heading-h3-itallics-line-height: normal;
+
+  --mobile-heading-h4-font-family: var(--font-display-stack);
+  --mobile-heading-h4-font-size: 18px;
+  --mobile-heading-h4-font-style: normal;
+  --mobile-heading-h4-font-weight: 400;
+  --mobile-heading-h4-letter-spacing: 0px;
+  --mobile-heading-h4-line-height: 100%;
+
+  /* ---- shadcn/ui surface tokens (used by components/ui/*) ---- */
+  --background: 0 0% 100%;
+  --foreground: 222.2 47.4% 11.2%;
+
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 47.4% 11.2%;
+
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 210 40% 98%;
+
+  --ring: 215 20.2% 65.1%;
+
+  --radius: 0.5rem;
+}
+
+/* ==========================================================================
+   2. TAILWIND THEME BRIDGE
+   --------------------------------------------------------------------------
+   `@theme inline` turns the Figma tokens above into Tailwind utilities, so the
+   design can be expressed with classes such as:
+     bg-primary-systembeige   text-primary-systemcoal   border-primary-systemwarm-gray
+     font-web-display-XXL     font-web-body-s           font-web-label-s
+   `inline` keeps the generated utilities pointing straight at the token
+   variables instead of copying their values.
+   ========================================================================== */
+
+@theme inline {
+  /* ---- Brand colours ---- */
+  --color-coal-400: var(--coal-400);
+  --color-editorial-accentsburgundy: var(--editorial-accentsburgundy);
+  --color-primary-systembeige: var(--primary-systembeige);
+  --color-primary-systemcoal: var(--primary-systemcoal);
+  --color-primary-systemfairy: var(--primary-systemfairy);
+  --color-primary-systemivory: var(--primary-systemivory);
+  --color-primary-systemmid-gray: var(--primary-systemmid-gray);
+  --color-primary-systemwarm-gray: var(--primary-systemwarm-gray);
+  --color-systemorange-light: var(--systemorange-light);
+
+  /* ---- Type faces ---- */
+  --font-sans: var(--font-body-stack);
+  --font-serif: var(--font-display-stack);
+  --font-display: var(--font-display-stack);
+  --font-body: var(--font-body-stack);
+  --font-label: var(--font-label-stack);
+
+  --font-web-display-XXL: var(--web-display-XXL-font-family);
+  --font-web-display-XL: var(--web-display-XL-font-family);
+  --font-web-display-l: var(--web-display-l-font-family);
+  --font-web-display-l2: var(--web-display-l2-font-family);
+  --font-web-heading-h1: var(--web-heading-h1-font-family);
+  --font-web-heading-h2: var(--web-heading-h2-font-family);
+  --font-web-heading-h3: var(--web-heading-h3-font-family);
+  --font-web-heading-h4: var(--web-heading-h4-font-family);
+  --font-web-body-l: var(--web-body-l-font-family);
+  --font-web-body-m: var(--web-body-m-font-family);
+  --font-web-body-s: var(--web-body-s-font-family);
+  --font-web-body-XS: var(--web-body-XS-font-family);
+  --font-web-caption: var(--web-caption-font-family);
+  --font-web-label-m: var(--web-label-m-font-family);
+  --font-web-label-s: var(--web-label-s-font-family);
+  --font-mobile-heading-h1: var(--mobile-heading-h1-font-family);
+  --font-mobile-heading-h3-itallics: var(--mobile-heading-h3-itallics-font-family);
+  --font-mobile-heading-h4: var(--mobile-heading-h4-font-family);
+
+  /* ---- shadcn/ui surfaces ---- */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+/* ==========================================================================
+   3. BASE LAYER
+   ========================================================================== */
+
+@layer base {
+  /* Tailwind v4 stopped defaulting borders to a grey; restore the v3 contract
+     so a bare `border` on the shadcn/ui primitives resolves to the theme token. */
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--primary-systemivory);
+    color: var(--primary-systemcoal);
+    font-family: var(--font-body-stack);
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--primary-systemcoal);
+    color: var(--primary-systemivory);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   4. ANIMATION UTILITIES
+   --------------------------------------------------------------------------
+   Ported from the Figma export. `animate-spin` / `animate-pulse` now come from
+   Tailwind itself, so only the bespoke ones live here.
+   ========================================================================== */
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 1s var(--animation-delay, 0s) ease forwards;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 1s var(--animation-delay, 0s) ease forwards;
+  }
+
+  .animate-marquee {
+    animation: marquee var(--duration) infinite linear;
+  }
+
+  .animate-marquee-vertical {
+    animation: marquee-vertical var(--duration) linear infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 8s infinite;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  90%,
+  to {
+    background-position: calc(-100% - var(--shimmer-width)) 0;
+  }
+
+  30%,
+  60% {
+    background-position: calc(100% + var(--shimmer-width)) 0;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate(0);
+  }
+
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  0% {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes image-glow {
+  0% {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.74, 0.25, 0.76, 1);
+  }
+
+  10% {
+    opacity: 0.7;
+    animation-timing-function: cubic-bezier(0.12, 0.01, 0.08, 0.99);
+  }
+
+  to {
+    opacity: 0.4;
+  }
+}
