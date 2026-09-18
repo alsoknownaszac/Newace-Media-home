@@ -4,32 +4,46 @@ import Image from "next/image";
 import { useMemo } from "react";
 
 import { PhotoLightbox, usePhotoLightbox, type LightboxImage } from "@/components/media/photo-lightbox";
-import { portfolioGridRows, portfolioMobileImages } from "@/content/portfolio-grid";
+import type { GridRow, MobileGridItem } from "@/content/photo-grid";
 import { cn } from "@/lib/utils";
 
 /**
- * The portfolio photo grid, reconstructed 1:1 from the Figma file.
+ * The Figma photo grid - every section the design names
+ * `enquire-drawer-section`. Two pages share this exact construction, so the
+ * renderer is data-driven:
+ *   - /portfolio          nodes 154:917 (desktop) / 344:2014 (mobile)
+ *   - /wedding-stories    nodes 178:743 (desktop) / 344:2544 (mobile)
  *
- * Desktop (node 154:917, `enquire-drawer-section`): 7 rows of varied-width cells
- * (215x310 / 429x206 / 207x298), 24px gaps, 40/48px padding, cells vertically
- * centered. `FILL` -> object-cover (centered crop), `STRETCH` -> object-fill.
+ * Desktop: a centred 1360px column of rows, each row a centred flex line of
+ * fixed-size cells with 24px gaps. `FILL` -> object-cover (centred crop),
+ * `STRETCH` -> object-fill.
  *
- * Mobile (node 344:2014, `Mobile_Grid`): a single column of 34 full-width
- * photos (563px portrait / 240px landscape), 12px gap.
+ * Mobile: a single column of full-bleed photos with 12px gaps.
  *
- * Clicking any photograph opens the full-screen viewer (nodes 390:4967 /
- * 390:5239). The viewer uses the desktop order as its canonical sequence.
+ * With `interactive` (the /portfolio grid, which the design pairs with the
+ * viewer frames 390:4967 / 390:5239) every cell is a button that opens the
+ * full-screen viewer, and the desktop order is the canonical sequence. The
+ * Wedding Stories grid has no viewer frame in the file, so it renders as a
+ * decorative image grid.
  */
-export function PortfolioMasonry({ interactive = true }: { interactive?: boolean }) {
+export function PhotoMasonry({
+  rows,
+  mobileImages,
+  interactive = false,
+}: {
+  rows: readonly GridRow[];
+  mobileImages: readonly MobileGridItem[];
+  interactive?: boolean;
+}) {
   const desktopImages = useMemo<LightboxImage[]>(() => {
     const flat: LightboxImage[] = [];
-    for (const row of portfolioGridRows) {
+    for (const row of rows) {
       for (const cell of row.cells) {
         flat.push({ src: cell.src, width: cell.width, height: cell.height });
       }
     }
     return flat;
-  }, []);
+  }, [rows]);
 
   const lightbox = usePhotoLightbox(desktopImages.length);
 
@@ -42,8 +56,8 @@ export function PortfolioMasonry({ interactive = true }: { interactive?: boolean
     <>
       {/* ---- Desktop: masonry rows ---- */}
       <div className="mx-auto hidden w-full max-w-[1360px] flex-col gap-6 lg:flex">
-        {portfolioGridRows.map((row, rowIndex) => (
-          <div key={`portfolio-row-${rowIndex}`} className="flex items-center justify-center gap-6">
+        {rows.map((row, rowIndex) => (
+          <div key={`photo-masonry-row-${rowIndex}`} className="flex items-center justify-center gap-6">
             {row.cells.map((cell) => {
               const inner = (
                 <Image
@@ -58,7 +72,11 @@ export function PortfolioMasonry({ interactive = true }: { interactive?: boolean
 
               if (!interactive) {
                 return (
-                  <div key={cell.src} className="relative shrink-0 overflow-hidden" style={{ width: cell.width, height: cell.height }}>
+                  <div
+                    key={cell.src}
+                    className="relative shrink-0 overflow-hidden"
+                    style={{ width: cell.width, height: cell.height }}
+                  >
                     {inner}
                   </div>
                 );
@@ -83,7 +101,7 @@ export function PortfolioMasonry({ interactive = true }: { interactive?: boolean
 
       {/* ---- Mobile / tablet: single column ---- */}
       <div className="flex w-full flex-col gap-3 lg:hidden">
-        {portfolioMobileImages.map((item) => {
+        {mobileImages.map((item) => {
           const inner = (
             <Image
               src={item.src}

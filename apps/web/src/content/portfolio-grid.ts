@@ -5,20 +5,9 @@
  * Photos were re-encoded from the Figma originals into public/images/portfolio/.
  */
 
-export type ScaleMode = "FILL" | "STRETCH";
+import type { GridRow, MobileGridItem } from "@/content/photo-grid";
 
-export interface GridCell {
-  readonly src: string;
-  readonly width: number;
-  readonly height: number;
-  readonly scale: ScaleMode;
-}
-
-export interface GridRow {
-  readonly width: number;
-  readonly height: number;
-  readonly cells: readonly GridCell[];
-}
+export type { GridCell, GridRow, MobileGridItem, ScaleMode } from "@/content/photo-grid";
 
 export const portfolioGridRows: readonly GridRow[] = [
   { width: 1360, height: 310, cells: [
@@ -70,12 +59,6 @@ export const portfolioGridRows: readonly GridRow[] = [
     { src: "/images/portfolio/9695b3d8.webp", width: 429, height: 206, scale: "STRETCH" },
   ]},
 ];
-
-export interface MobileGridItem {
-  readonly src: string;
-  readonly height: number;
-  readonly scale: ScaleMode;
-}
 
 export const portfolioMobileImages: readonly MobileGridItem[] = [
   { src: "/images/portfolio/1db4f5de.webp", height: 563, scale: "FILL" },

@@ -1,6 +1,8 @@
 # Page build status — what is built, what is not, and what is blocked
 
-Last updated: 16 Sep 2026. Companion to [`nextjs-migration.md`](nextjs-migration.md).
+Last updated: 17 Sep 2026. Companion to [`nextjs-migration.md`](nextjs-migration.md). The
+Figma REST API token is now configured, so the screens below are rebuilt from the live
+node trees rather than the repo export.
 
 ## Legend
 
@@ -21,8 +23,8 @@ Last updated: 16 Sep 2026. Companion to [`nextjs-migration.md`](nextjs-migration
 | Portfolio — mobile 1 | `344-2014` | `/portfolio` | ✅ same grid, responsive rules in place |
 | Portfolio — desktop 2 (image clicked) | `390-4967` | `/portfolio` overlay | 🟡 **interaction built**: click → full-screen overlay, Esc / arrows / swipe / counter |
 | Portfolio — mobile 2 (image clicked) | `390-5239` | `/portfolio` overlay | 🟡 same component, mobile controls + swipe |
-| Wedding stories — desktop | `178-738` | `/wedding-stories` | ⛔ structural base |
-| Wedding stories — mobile | `344-2312` | `/wedding-stories` | ⛔ structural base |
+| Wedding stories — desktop | `178-738` | `/wedding-stories` | ✅ built from the design: hero, six-card grid (`178-788`), photo grid (`178-743`), form | 
+| Wedding stories — mobile | `344-2312` | `/wedding-stories` | ✅ same, responsive: photo grid is `344-2544` |
 | Wedding story details — desktop | `178-1035` | `/wedding-stories/[slug]` | ⛔ structural base |
 | Wedding story details — mobile | `344-2553` | `/wedding-stories/[slug]` | ⛔ structural base |
 | Contact us — desktop | `131-874` | `/contact` | ✅ built from the export (form) |
@@ -45,33 +47,56 @@ Last updated: 16 Sep 2026. Companion to [`nextjs-migration.md`](nextjs-migration
 | `src/content/site.ts` | Added a `WEDDING STORIES` nav entry; footer "Wedding Stories" now points at the real route. |
 | `src/app/sitemap.ts` | Story URLs included. |
 
+### Latest pass — the missing Wedding Stories photo grid
+
+The `/wedding-stories` page was rendering hero → six story cards → form and silently
+skipped the photo grid between the cards and the form (`178-743` desktop, `344-2544`
+mobile). That section is now built:
+
+| File | Purpose |
+| --- | --- |
+| `src/content/photo-grid.ts` | Shared grid vocabulary (`ScaleMode`, `GridCell`, `GridRow`, `MobileGridItem`) so both grids use one set of shapes. `portfolio-grid.ts` re-exports them. |
+| `src/content/stories-grid.ts` | The Wedding Stories grid extracted verbatim: 3 desktop rows (4 / 6 / 4 cells) and 4 mobile photos. |
+| `src/components/sections/photo-masonry.tsx` | Generic renderer for every Figma `enquire-drawer-section` grid — takes `rows` + `mobileImages`, so `/portfolio` and `/wedding-stories` share one implementation. |
+| `src/components/sections/portfolio-masonry.tsx` | Removed; superseded by `photo-masonry.tsx`. `/portfolio` now passes the portfolio data plus `interactive`. |
+| `public/images/stories/*.webp` | Five new photos re-encoded from the Figma originals (`e07877bc`, `f1292321`, `a3a6c23b`, `aa391a36`, `0fd91032`). The other nine cells reuse photos already shipped in `public/images/portfolio/`. |
+
+Measured in a real browser (headless Chrome, 1440px and 390px) the section matches the
+file exactly: desktop rows of `215x310 / 429x206 / 207x298` cells on 24px gaps with the
+odd cells vertically centered inside each 310/298px row, 40px side + 48px vertical
+padding (1062px total); mobile four full-bleed 240px photos on 12px gaps with 60px
+below (1056px total). The grid has no viewer frame in the design, so it renders as a
+decorative image grid — pass `interactive` to switch on the lightbox.
+
 ## Verification
 
 | Check | Result |
 | --- | --- |
 | `pnpm typecheck` | ✅ 0 errors |
 | `pnpm lint` | ✅ 0 errors, 0 warnings |
-| `pnpm build` | ✅ 15 static pages, incl. `/wedding-stories` and both `[slug]` pages (SSG) |
+| `pnpm build` | ✅ 19 static pages, incl. `/wedding-stories` and both `[slug]` pages (SSG) |
 | `/portfolio` | ✅ 200, 13 overlay triggers in the HTML |
 | `/behind-the-scenes` | ✅ 200, 2 overlay triggers |
-| `/wedding-stories` | ✅ 200 |
+| `/wedding-stories` | ✅ 200 — hero, 6 story cards, 18 photo-grid photos (14 desktop + 4 mobile), form |
 | `/wedding-stories/john-paul-millicent` | ✅ 200, 6 overlay triggers |
 | `/wedding-stories/unknown-slug` | ✅ 404 |
 | `/sitemap.xml` | ✅ 8 URLs |
 
-## The blocker, stated plainly
+## The blocker — resolved
 
-A 100% replica of the screens marked 🟡/⛔ is **not possible until the design data
-reaches me as text**. Two hard limits:
+The Figma REST API token is now configured, so node trees are pulled directly and the
+screens are rebuilt from real geometry instead of being guessed. The two limits that
+made this necessary are kept here for context:
 
-1. `https://www.figma.com/design/...` returns **HTTP 403** — the file is private and
-   I have no credentials.
-2. I have **no image input**. Screenshots, JPGs and PNG exports cannot be read by
-   me, so "just look at the design" cannot work either.
+1. `https://www.figma.com/design/...` returned **HTTP 403** — the file is private and
+   there were no credentials.
+2. There is **no image input**, so screenshots, JPGs and PNG exports cannot be read.
+   Pixel geometry has to come from the API (positions, sizes, fills, fonts, text) or
+   from rendered **SVG**, which is text.
 
-Three ways to fix that, ordered by fidelity:
+Options B and C below stay as fallbacks.
 
-### Option A — Figma REST API token (highest fidelity, ~2 minutes)
+### Option A — Figma REST API token (highest fidelity) — **in use**
 
 1. Figma → **Settings → Security → Personal access tokens → Generate new token**
    (`file_read` scope is enough).

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 
 import { ContactSection } from "@/components/sections/contact-section";
 import { JournalCards } from "@/components/sections/journal-cards";
-import { PortfolioMasonry } from "@/components/sections/portfolio-masonry";
+import { PhotoMasonry } from "@/components/sections/photo-masonry";
+import { portfolioGridRows, portfolioMobileImages } from "@/content/portfolio-grid";
 
 /**
  * PORTFOLIO - page 3 of 5.
@@ -39,7 +40,7 @@ export default function PortfolioPage() {
 
       {/* Photo grid - node 154:917 "enquire-drawer-section" (40/48px padding) */}
       <section className="w-full px-10 py-12">
-        <PortfolioMasonry />
+        <PhotoMasonry rows={portfolioGridRows} mobileImages={portfolioMobileImages} interactive />
       </section>
 
       {/* Stories / behind-the-scenes teaser - node 154:917 "Hero Section" + "manifesto-section" */}

@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 
 import { ContactSection } from "@/components/sections/contact-section";
+import { PhotoMasonry } from "@/components/sections/photo-masonry";
 import { StoryCard } from "@/components/sections/story-card";
 import { weddingStories, weddingStoriesIntro } from "@/content/stories";
+import { storyGridMobileImages, storyGridRows } from "@/content/stories-grid";
 
 /**
  * WEDDING STORIES index - rebuilt 1:1 from Figma node 178:738 (desktop) /
- * 344:2312 (mobile): "Wedding Stories" wordmark + six-card grid + form + footer.
+ * 344:2312 (mobile): "Wedding Stories" wordmark + six-card grid + photo grid +
+ * form + footer.
  */
 export const metadata: Metadata = {
   title: "Wedding Stories",
@@ -39,6 +42,12 @@ export default function WeddingStoriesPage() {
             <StoryCard key={story.slug} story={story} />
           ))}
         </div>
+      </section>
+
+      {/* Photo grid - node 178:743 "enquire-drawer-section"
+          (desktop 40px sides / 48px vertical; mobile full-bleed with 60px below) */}
+      <section className="w-full pb-[60px] lg:px-10 lg:pb-12 lg:pt-12">
+        <PhotoMasonry rows={storyGridRows} mobileImages={storyGridMobileImages} />
       </section>
 
       {/* Start a conversation - node 178:738 "enquire-drawer-section" */}

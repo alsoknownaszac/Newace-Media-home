@@ -7,7 +7,7 @@ import { galleryRows } from "@/content/portfolio";
  * Home page portfolio preview grid: the four rows from the original export
  * (4 / 3 / 2 / 4), uniform height, `object-cover`. This is the approved home
  * composition and is intentionally separate from the full masonry grid used on
- * /portfolio (see portfolio-masonry.tsx).
+ * /portfolio and /wedding-stories (see photo-masonry.tsx).
  */
 export function PortfolioGallery({
   rows = galleryRows,
