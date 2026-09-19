@@ -213,7 +213,7 @@ export function TestimonialsSection() {
           {/* Portrait — stacked above the card on mobile; overlaps it on desktop */}
           <div
             aria-hidden="true"
-            className="relative z-20 h-[200px] ml-5 w-[80g%] lg:col-start-1 lg:row-start-1 lg:h-[400px] lg:w-[400px] lg:self-center lg:justify-self-start"
+            className="relative z-20 h-[200px] ml-5 w-[80%] lg:col-start-1 lg:row-start-1 lg:h-[400px] lg:w-[400px] lg:self-center lg:justify-self-start"
           >
             <Image
               key={active.portrait.src}

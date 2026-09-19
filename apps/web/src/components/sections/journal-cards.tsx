@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { useMemo } from "react";
 
-import { PhotoLightbox, usePhotoLightbox, type LightboxImage } from "@/components/media/photo-lightbox";
+import {
+  PhotoLightbox,
+  usePhotoLightbox,
+  type LightboxImage,
+} from "@/components/media/photo-lightbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { journalEntries } from "@/content/journal";
 
@@ -17,7 +21,11 @@ import { journalEntries } from "@/content/journal";
  *
  * Card geometry is unchanged from the Figma export.
  */
-export function JournalCards({ interactive = false }: { interactive?: boolean }) {
+export function JournalCards({
+  interactive = false,
+}: {
+  interactive?: boolean;
+}) {
   const images = useMemo<LightboxImage[]>(
     () =>
       journalEntries.map((entry) => ({
@@ -33,7 +41,10 @@ export function JournalCards({ interactive = false }: { interactive?: boolean })
     <>
       <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-11">
         {journalEntries.map((entry, index) => (
-          <Card key={`${entry.title}-${entry.couple}`} className="border-0 bg-transparent p-0 shadow-none">
+          <Card
+            key={`${entry.title}-${entry.couple}-${index}`}
+            className="border-0 bg-transparent p-0 shadow-none"
+          >
             <CardContent className="flex flex-col items-start gap-6 p-0 pb-6 sm:gap-10 sm:pb-11">
               {interactive ? (
                 <button

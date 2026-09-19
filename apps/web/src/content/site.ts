@@ -10,7 +10,7 @@ export const site = {
   legalName: "NewAce Media Photography",
   /** Footer tagline - verbatim from the Figma home footer. */
   description:
-    "Premium wedding photography for celebrations worth remembering. Rooted in Warri, Delta State | Photographing weddings across Nigeria and beyond.",
+    "Premium wedding photography for celebrations worth remembering. Rooted in Delta State| and Photographing weddings across Nigeria and beyond.",
   shortDescription:
     "Editorial photographs, candid moments, and a wedding day that still feels like yours.",
   coverage: "Delta State | Available across Nigeria & internationally",
@@ -94,7 +94,7 @@ export const socialLinks: readonly SiteSocialLink[] = [
   },
   {
     label: "Google Map",
-    href: "https://maps.google.com/?q=100+Effurun+Sapele+Road,+Delta+State,+Nigeria",
+    href: "https://maps.google.com/?q=NewAce+Media+Effurun-Sapele+Road,+Warri,+Delta+State,+Nigeria",
     icon: "/icons/basil-map-location-outline.svg",
     iconWidth: 24,
     iconHeight: 24,

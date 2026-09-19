@@ -58,7 +58,8 @@ export default function ContactPage() {
           </h1>
           <p className="font-body text-base font-normal leading-[25.6px] text-[#77736d]">
             Every love story deserves to be told with intention. Tell us a
-            little about yours, and we'll follow up within two business days.
+            little about yours, and we&apos;ll follow up within two business
+            days.
           </p>
         </div>
       </section>

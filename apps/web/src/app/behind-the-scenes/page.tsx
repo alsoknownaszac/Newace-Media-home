@@ -6,6 +6,7 @@ import { LatestBtsCarousel } from "@/components/sections/latest-bts-carousel";
 import { StoryCard } from "@/components/sections/story-card";
 import { btsIntro } from "@/content/bts";
 import { weddingStories } from "@/content/stories";
+import { italicizeWords } from "@/lib/text-utils";
 
 /**
  * BEHIND THE SCENES (Behind the Lens) - rebuilt 1:1 from Figma node 181:1478
@@ -30,12 +31,14 @@ export default function BehindTheScenesPage() {
   return (
     <div className="flex w-full flex-col bg-[#faf7f2]">
       {/* Hero - node 181:1478 "Hero Section" */}
-      <section className="flex w-full flex-col items-center gap-6 px-5 pb-10 pt-6 lg:gap-6 lg:px-20 lg:pb-16 lg:pt-24">
-        <p className="font-body text-xs font-medium text-[#6e6a66]">{btsIntro.eyebrow}</p>
-        <h1 className="max-w-[742px] text-center font-display text-[40px] font-normal leading-[1.05] text-primary-systemcoal lg:text-[64px] lg:leading-[64px]">
-          {btsIntro.heading}
+      <section className="flex w-full flex-col gap-6 px-5 pb-10 pt-6 lg:gap-6 lg:px-20 lg:pb-16 lg:pt-24">
+        <p className="font-body text-xs font-medium text-[#6e6a66]">
+          {btsIntro.eyebrow}
+        </p>
+        <h1 className="max-w-[742px] font-display text-[40px] font-normal leading-[1.05] text-primary-systemcoal lg:text-[64px] lg:leading-[64px]">
+          {italicizeWords(btsIntro.heading, "Finished")}
         </h1>
-        <p className="max-w-[827px] text-center font-body text-[14px] font-normal leading-[1.6] text-primary-systemmid-gray lg:text-[20px]">
+        <p className="max-w-[827px] font-body text-[14px] font-normal leading-[1.6] text-primary-systemmid-gray lg:text-[20px]">
           {btsIntro.intro}
         </p>
       </section>

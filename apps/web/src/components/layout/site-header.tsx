@@ -41,7 +41,10 @@ export function SiteHeader() {
         key={item.href}
         href={item.href}
         aria-current={current ? "page" : undefined}
-        className={cn(labelClassName, "text-primary-systemcoal hover:text-primary-systemwarm-gray")}
+        className={cn(
+          labelClassName,
+          "text-primary-systemcoal hover:text-primary-systemwarm-gray",
+        )}
       >
         {item.label}
       </Link>
@@ -49,7 +52,7 @@ export function SiteHeader() {
   });
 
   return (
-    <header className="relative z-50 flex h-20 w-full items-center bg-primary-systemivory">
+    <header className="sticky top-0 z-50 flex h-20 w-full items-center bg-primary-systemivory">
       <div className="mx-auto flex h-full w-full max-w-[1440px] items-center justify-between px-6 lg:px-20">
         <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
           <Image
@@ -79,13 +82,19 @@ export function SiteHeader() {
 
         <button
           type="button"
-          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-label={
+            mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
+          }
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-navigation"
           onClick={() => setMobileMenuOpen((open) => !open)}
           className="flex h-11 w-11 items-center justify-center border border-primary-systemcoal text-primary-systemcoal lg:hidden"
         >
-          {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {mobileMenuOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
         </button>
       </div>
 

@@ -29,6 +29,7 @@ import {
 import {
   inquirySchema,
   type InquiryInput,
+  type InquiryFormValues,
   type InquiryPayload,
 } from "@/lib/inquiries";
 import { cn } from "@/lib/utils";
@@ -80,7 +81,7 @@ export function InquiryForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<InquiryInput>({
+  } = useForm<InquiryFormValues, unknown, InquiryInput>({
     resolver: zodResolver(inquirySchema),
     defaultValues: {
       fullName: "",
@@ -430,7 +431,7 @@ function DatePickerField({
 }: {
   name: "eventDateOne" | "eventDateTwo";
   label: string;
-  control: Control<InquiryInput>;
+  control: Control<InquiryFormValues, unknown, InquiryInput>;
   hasError: boolean;
   errorMessage?: string;
   required?: boolean;
@@ -461,7 +462,7 @@ function DatePickerField({
                     : "border-[#a69b8d]",
                 )}
               >
-                {formatDate(field.value)}
+                {formatDate(field.value as Date | undefined)}
                 <CalendarIcon
                   aria-hidden="true"
                   className="mr-3 h-4 w-4 text-primary-systemcoal"
@@ -471,7 +472,7 @@ function DatePickerField({
             <PopoverContent className="w-auto p-0" align="start">
               <Calendar
                 mode="single"
-                selected={field.value}
+                selected={field.value as Date | undefined}
                 onSelect={field.onChange}
               />
             </PopoverContent>

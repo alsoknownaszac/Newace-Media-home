@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { closingCta } from "@/content/home";
+import { italicizeWords } from "@/lib/text-utils";
 
 /**
  * Full-bleed closing CTA - Figma node 66:152 "hero-section".
@@ -23,7 +24,7 @@ export function ClosingCtaSection() {
       <div className="relative z-10 flex flex-col items-center justify-center gap-6 px-6 text-center lg:gap-[58px]">
         <div className="flex flex-col items-center gap-6 lg:gap-[29px]">
           <h2 className="max-w-[581px] font-display text-[32px] font-normal not-italic leading-none tracking-[-0.32px] text-white lg:text-[64px] lg:leading-[64px] lg:tracking-[-0.64px]">
-            {closingCta.heading}
+            {italicizeWords(closingCta.heading, ["love", "story"], "#A69B8D")}
           </h2>
           <p className="max-w-[635px] font-display text-[18px] font-normal not-italic leading-[1.3] text-white lg:text-[24px] lg:leading-[31.2px]">
             {closingCta.summary}

@@ -14,7 +14,7 @@ export const inquirySchema = z.object({
   phone: z.string().min(5, "Phone number is required"),
   location: z.string().min(2, "Location is required"),
   eventType: z.string().min(1, "Event type is required"),
-  eventDateOne: z.coerce.date({ required_error: "First event date is required" }),
+  eventDateOne: z.coerce.date({ error: "First event date is required" }),
   eventDateTwo: z.coerce.date().optional(),
   howDidYouHear: z.string().min(1, "Please tell us how you heard about us"),
   message: z.string().max(2000).optional(),
@@ -26,6 +26,7 @@ export const inquirySchema = z.object({
 });
 
 export type InquiryInput = z.infer<typeof inquirySchema>;
+export type InquiryFormValues = z.input<typeof inquirySchema>;
 
 /** JSON-safe shape sent over the wire by the client form. */
 export interface InquiryPayload {
@@ -64,7 +65,9 @@ function renderPlainText(inquiry: InquiryInput): string {
     `Phone:       ${inquiry.phone}`,
     `Event type:  ${inquiry.eventType}`,
     `Event date 1: ${formatDate(inquiry.eventDateOne)}`,
-    inquiry.eventDateTwo ? `Event date 2: ${formatDate(inquiry.eventDateTwo)}` : null,
+    inquiry.eventDateTwo
+      ? `Event date 2: ${formatDate(inquiry.eventDateTwo)}`
+      : null,
     `Location:    ${inquiry.location}`,
     `Heard via:   ${inquiry.howDidYouHear}`,
     "",
@@ -81,10 +84,14 @@ function renderPlainText(inquiry: InquiryInput): string {
  * the end-to-end flow stays testable in development instead of silently
  * pretending to have emailed the studio.
  */
-export async function deliverInquiry(inquiry: InquiryInput): Promise<DeliveryResult> {
+export async function deliverInquiry(
+  inquiry: InquiryInput,
+): Promise<DeliveryResult> {
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.INQUIRY_TO_EMAIL ?? "photos@newacemedia.com";
-  const from = process.env.INQUIRY_FROM_EMAIL ?? "Newace Website <website@newacemedia.com>";
+  const from =
+    process.env.INQUIRY_FROM_EMAIL ??
+    "Newace Website <website@newacemedia.com>";
 
   if (!apiKey) {
     console.warn(
@@ -111,7 +118,10 @@ export async function deliverInquiry(inquiry: InquiryInput): Promise<DeliveryRes
 
   if (!response.ok) {
     const detail = await response.text();
-    return { delivered: false, reason: `Resend responded ${response.status}: ${detail}` };
+    return {
+      delivered: false,
+      reason: `Resend responded ${response.status}: ${detail}`,
+    };
   }
 
   return { delivered: true, provider: "resend" };

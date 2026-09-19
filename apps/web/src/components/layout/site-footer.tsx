@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { footerNavigation, footerStrip, site, socialLinkColumns } from "@/content/site";
+import {
+  footerNavigation,
+  footerStrip,
+  site,
+  socialLinkColumns,
+} from "@/content/site";
 
 /**
  * Shared footer.
@@ -30,7 +35,9 @@ export function SiteFooter() {
               unoptimized
               className="h-[84.8px] w-40"
             />
-            <p className={`${bodyTextClassName} text-primary-systemivory`}>{site.description}</p>
+            <p className={`${bodyTextClassName} text-primary-systemivory`}>
+              {site.description}
+            </p>
           </div>
 
           <nav
@@ -38,7 +45,10 @@ export function SiteFooter() {
             aria-label="Footer navigation"
           >
             {footerNavigation.map((column, columnIndex) => (
-              <div key={`navigation-column-${columnIndex}`} className="flex flex-col items-start gap-3">
+              <div
+                key={`navigation-column-${columnIndex}`}
+                className="flex flex-col items-start gap-3"
+              >
                 {column.map((item) => (
                   <Link
                     key={item.label}
@@ -76,11 +86,19 @@ export function SiteFooter() {
               <h2 className="font-['Inter',Helvetica] text-sm font-semibold leading-[19.6px] text-primary-systemivory">
                 LOCATIONS &amp; CONTACT
               </h2>
-              <div className={`${bodyTextClassName} flex flex-col gap-1 text-primary-systemivory`}>
-                <a href={site.contact.phoneHref} className="transition-colors hover:text-primary-systembeige">
+              <div
+                className={`${bodyTextClassName} flex flex-col gap-1 text-primary-systemivory`}
+              >
+                <a
+                  href={site.contact.phoneHref}
+                  className="transition-colors hover:text-primary-systembeige"
+                >
                   Phone: {site.contact.phone}
                 </a>
-                <a href={site.contact.emailHref} className="transition-colors hover:text-primary-systembeige">
+                <a
+                  href={site.contact.emailHref}
+                  className="transition-colors hover:text-primary-systembeige"
+                >
                   Email: {site.contact.email}
                 </a>
                 <p className="mt-3">
@@ -99,14 +117,22 @@ export function SiteFooter() {
             <h2 className="font-['Inter',Helvetica] text-sm font-semibold leading-[19.6px] text-primary-systemivory">
               SOCIAL &amp; MAP LINKS
             </h2>
-            <nav className="flex items-start gap-8" aria-label="Social and map links">
+            <nav
+              className="flex items-start gap-8"
+              aria-label="Social and map links"
+            >
               {socialLinkColumns.map((column, columnIndex) => (
-                <div key={`social-column-${columnIndex}`} className="flex flex-col items-start gap-6">
+                <div
+                  key={`social-column-${columnIndex}`}
+                  className="flex flex-col items-start gap-6"
+                >
                   {column.map((link) => (
                     <a
                       key={link.label}
                       href={link.href}
-                      {...(link.external ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+                      {...(link.external
+                        ? { target: "_blank", rel: "noreferrer noopener" }
+                        : {})}
                       className={`flex items-center gap-2.5 ${bodyTextClassName} text-primary-systemivory transition-colors hover:text-primary-systembeige focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-systemivory focus-visible:ring-offset-2 focus-visible:ring-offset-primary-systemcoal`}
                     >
                       <Image

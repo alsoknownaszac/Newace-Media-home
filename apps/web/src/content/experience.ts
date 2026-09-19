@@ -21,7 +21,7 @@ export const experienceSteps: readonly ExperienceStep[] = [
     number: "01",
     title: "Understand & Prepare",
     description:
-      "Your story comes first. We take the time to get to know you, understand your vision and the character of your celebration. With thoughtful preparation, we make sure we're ready to capture what matters while leaving room for the unexpected.",
+      "Your story comes first. We take the time to get to know you, understand your vision and the character of your celebration. With thoughtful preparation, we make sure we’re ready to capture what matters.",
   },
   {
     number: "02",
