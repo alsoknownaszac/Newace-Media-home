@@ -11,6 +11,7 @@ import {
   aboutPromise,
 } from "@/content/about";
 import { ExperienceSection } from "@/components/sections/experience-section";
+import { ClosingCtaSection } from "@/components/sections/closing-cta-section";
 
 /**
  * ABOUT - page 2 of 5. Rebuilt 1:1 from Figma node 154:764 (desktop) /
@@ -124,64 +125,9 @@ export default function AboutPage() {
         </div>
       </section>
       {/* 4. Experience - node 154:764 "experience-section" */}
-      {/* <section className="bg-[#e7e3dc] px-5 py-14 lg:px-[100px] lg:py-[100px]">
-        <div className="mx-auto flex max-w-[1240px] flex-col gap-12 lg:gap-16">
-          <header className="flex max-w-[715px] flex-col gap-4">
-            <p className="font-body text-xs font-medium text-primary-systemcoal">
-              {aboutExperience.eyebrow}
-            </p>
-            <h2 className="font-display text-[32px] font-normal leading-[1.1] text-primary-systemcoal lg:text-[48px]">
-              {aboutExperience.heading}
-            </h2>
-            <p className="font-body text-sm leading-[1.6] text-primary-systemmid-gray lg:text-base">
-              {aboutExperience.summary}
-            </p>
-          </header>
-
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
-            {aboutExperience.steps.map((step) => (
-              <article key={step.number} className="flex flex-col gap-5">
-                <p className="font-display text-[40px] font-normal leading-none text-primary-systemmid-gray">
-                  {step.number}
-                </p>
-                <h3 className="font-display text-2xl font-normal leading-[1.3] text-primary-systemcoal">
-                  {step.title}
-                </h3>
-                <p className="font-body text-sm leading-[1.5] text-primary-systemcoal">
-                  {step.description}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section> */}
       <ExperienceSection />
       {/* 5. Closing CTA - node 154:764 "hero-section" (full-bleed image) */}
-      <section className="relative grid h-[520px] w-full overflow-hidden lg:h-[700px]">
-        <Image
-          src={aboutClosingCta.image.src}
-          alt=""
-          aria-hidden="true"
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 flex flex-col items-center justify-center gap-6 px-6 text-center lg:gap-8">
-          <h2 className="max-w-[720px] font-display text-[32px] font-normal leading-[1.1] text-white lg:text-[64px]">
-            {aboutClosingCta.heading}
-          </h2>
-          <p className="max-w-[600px] font-display text-[18px] font-normal leading-[1.3] text-white lg:text-[24px]">
-            {aboutClosingCta.summary}
-          </p>
-          <Button
-            asChild
-            className="mt-2 h-11 rounded-none bg-[#e7e3dc] px-8 font-body text-xs font-medium text-primary-systemcoal hover:bg-primary-systemivory"
-          >
-            <Link href="/contact">{aboutClosingCta.action}</Link>
-          </Button>
-        </div>
-      </section>
+      <ClosingCtaSection />
     </>
   );
 }
