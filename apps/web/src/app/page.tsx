@@ -29,8 +29,8 @@ export default function HomePage() {
       <HeroSection />
       <PortfolioPreviewSection />
       <PhilosophySection />
-      <TestimonialsSection />
       <JournalSection />
+      <TestimonialsSection />
       <ExperienceSection />
       <FounderBioSection />
       <ContactSection />
@@ -38,4 +38,3 @@ export default function HomePage() {
     </>
   );
 }
-

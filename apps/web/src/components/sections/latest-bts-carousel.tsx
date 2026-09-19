@@ -1,12 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Play } from "lucide-react";
-import { useMemo, useRef } from "react";
+import { ArrowLeft, ArrowRight, Play } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
 
-import { PhotoLightbox, usePhotoLightbox, type LightboxImage } from "@/components/media/photo-lightbox";
+import {
+  PhotoLightbox,
+  usePhotoLightbox,
+  type LightboxImage,
+} from "@/components/media/photo-lightbox";
 import { PaginationCard } from "@/components/ui/pagination-card";
-import { latestBtsCarousel, latestBtsHeading, latestBtsMedia } from "@/content/bts";
+import {
+  latestBtsCarousel,
+  latestBtsHeading,
+  latestBtsMedia,
+} from "@/content/bts";
 import { usePagedSection } from "@/hooks/use-paged-section";
 import { cn } from "@/lib/utils";
 
@@ -15,13 +23,10 @@ import { cn } from "@/lib/utils";
  * 393:6565 (mobile).
  *
  * Desktop: the design's `BigFeaturedGrid` is a 1280px window onto a line of
- * 333x500 slides 32px apart - the fourth is clipped, so the rail reads as
- * endless. It is animated with the project's existing `animate-marquee`
- * utility: the slides are laid out twice and each copy travels exactly its own
- * width plus one gap (`--duration` / `--gap`), which lands copy two precisely
- * where copy one started. The loop is therefore seamless and never ends.
- * Hovering pauses it so a slide can be clicked; `prefers-reduced-motion` stops
- * it outright.
+ * 333x500 slides 32px apart - the fourth is clipped, so more content is
+ * implied off-screen. The rail is static (no auto-scroll); the arrow glyphs
+ * in the header (node 181:1518) are functional previous/next controls that
+ * shift the visible window by one slide at a time, disabling at each end.
  *
  * Mobile: three rows of two 167x251 cards on 16/24px gaps, split into pages of
  * six and slid horizontally. The pagination card below (393:6565) drives it -
@@ -38,7 +43,12 @@ const PER_PAGE = RAIL.mobileColumns * RAIL.mobileRows;
 
 export function LatestBtsCarousel() {
   const images = useMemo<LightboxImage[]>(
-    () => latestBtsMedia.map((item) => ({ src: item.image.src, width: item.image.width, height: item.image.height })),
+    () =>
+      latestBtsMedia.map((item) => ({
+        src: item.image.src,
+        width: item.image.width,
+        height: item.image.height,
+      })),
     [],
   );
 
@@ -53,6 +63,11 @@ export function LatestBtsCarousel() {
 
   const swiped = useRef(false);
   const touchStartX = useRef<number | null>(null);
+
+  // Desktop rail: index of the leftmost visible slide.
+  const [railIndex, setRailIndex] = useState(0);
+  const maxRailIndex = Math.max(0, latestBtsMedia.length - 1);
+  const railOffset = railIndex * (RAIL.desktopSlideWidth + RAIL.desktopGap);
 
   const playDisc = (size: "slide" | "card") => (
     <span className="absolute inset-0 flex items-center justify-center">
@@ -107,49 +122,66 @@ export function LatestBtsCarousel() {
           <h2 className="font-display text-[36px] font-normal leading-[43.6px] text-[#151414]">
             {latestBtsHeading.heading}
           </h2>
-          {/* Node 181:1518 `Link` - two arrow-right glyphs, 32px, 8px apart. */}
-          <span aria-hidden="true" className="flex shrink-0 items-center gap-2 text-primary-systemcoal">
-            <ArrowRight className="h-8 w-8" />
-            <ArrowRight className="h-8 w-8" />
+          {/* Node 181:1518 `Link` - previous/next controls for the rail. */}
+          <span className="flex shrink-0 items-center gap-2 text-primary-systemcoal">
+            <button
+              type="button"
+              onClick={() => setRailIndex((i) => Math.max(0, i - 1))}
+              disabled={railIndex === 0}
+              aria-label="Previous behind the scenes media"
+              className="disabled:opacity-30"
+            >
+              <ArrowLeft className="h-8 w-8" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setRailIndex((i) => Math.min(maxRailIndex, i + 1))}
+              disabled={railIndex >= maxRailIndex}
+              aria-label="Next behind the scenes media"
+              className="disabled:opacity-30"
+            >
+              <ArrowRight className="h-8 w-8" />
+            </button>
           </span>
         </div>
 
-        <div className="group mx-auto mt-12 w-full max-w-[1360px] overflow-hidden px-10">
-          <div className="flex w-max gap-8">
-            {[0, 1].map((copy) => (
-              <div
-                key={copy}
-                aria-hidden={copy === 1 || undefined}
-                className="animate-marquee flex w-max shrink-0 gap-8 group-hover:[animation-play-state:paused] motion-reduce:animate-none"
-                style={
-                  {
-                    "--duration": `${RAIL.desktopDurationSeconds}s`,
-                    "--gap": `${RAIL.desktopGap}px`,
-                  } as React.CSSProperties
-                }
+        {/* Rail wrapper: left edge matches the heading's inset; right edge is
+            intentionally NOT capped by max-w-[1360px]/px-10 like the heading
+            row - it runs to the true right edge of the viewport so the 4th
+            (clipped) slide reads as bleeding off the page, not stopping
+            inside a margin. */}
+        <div
+          className="mt-12 overflow-hidden"
+          style={{
+            paddingLeft: "max(40px, calc((100vw - 1360px) / 2 + 40px))",
+          }}
+        >
+          <div
+            className="flex w-max gap-8 transition-transform duration-500 ease-out motion-reduce:transition-none"
+            style={{ transform: `translateX(-${railOffset}px)` }}
+          >
+            {latestBtsMedia.map((item, index) => (
+              <button
+                key={item.image.src}
+                type="button"
+                onClick={() => openSlide(index)}
+                aria-label={`Open behind the scenes media ${index + 1} of ${latestBtsMedia.length}`}
+                className="relative shrink-0 cursor-zoom-in overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-systemcoal focus-visible:ring-inset"
+                style={{
+                  width: RAIL.desktopSlideWidth,
+                  height: RAIL.desktopSlideHeight,
+                }}
               >
-                {latestBtsMedia.map((item, index) => (
-                  <button
-                    key={`${copy}-${item.image.src}`}
-                    type="button"
-                    tabIndex={copy === 1 ? -1 : undefined}
-                    onClick={() => openSlide(index)}
-                    aria-label={`Open behind the scenes media ${index + 1} of ${latestBtsMedia.length}`}
-                    className="relative shrink-0 cursor-zoom-in overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-systemcoal focus-visible:ring-inset"
-                    style={{ width: RAIL.desktopSlideWidth, height: RAIL.desktopSlideHeight }}
-                  >
-                    <Image
-                      src={item.image.src}
-                      alt=""
-                      aria-hidden="true"
-                      fill
-                      sizes={`${RAIL.desktopSlideWidth}px`}
-                      className="object-cover"
-                    />
-                    {playDisc("slide")}
-                  </button>
-                ))}
-              </div>
+                <Image
+                  src={item.image.src}
+                  alt=""
+                  aria-hidden="true"
+                  fill
+                  sizes={`${RAIL.desktopSlideWidth}px`}
+                  className="object-cover"
+                />
+                {playDisc("slide")}
+              </button>
             ))}
           </div>
         </div>
@@ -173,43 +205,59 @@ export function LatestBtsCarousel() {
               style={{ transform: `translateX(-${page * 100}%)` }}
             >
               {Array.from({ length: pageCount }, (_, pageIndex) => {
-                const pageItems = latestBtsMedia.slice(pageIndex * PER_PAGE, (pageIndex + 1) * PER_PAGE);
+                const pageItems = latestBtsMedia.slice(
+                  pageIndex * PER_PAGE,
+                  (pageIndex + 1) * PER_PAGE,
+                );
                 return (
                   <div
                     key={`page-${pageIndex}`}
                     aria-hidden={pageIndex === page ? undefined : true}
                     className="flex w-full shrink-0 flex-col gap-6"
                   >
-                    {Array.from({ length: Math.ceil(pageItems.length / RAIL.mobileColumns) }, (_, rowIndex) => (
-                      <div key={`row-${rowIndex}`} className="flex gap-4">
-                        {pageItems
-                          .slice(rowIndex * RAIL.mobileColumns, (rowIndex + 1) * RAIL.mobileColumns)
-                          .map((item, columnIndex) => {
-                            const index = pageIndex * PER_PAGE + rowIndex * RAIL.mobileColumns + columnIndex;
-                            return (
-                              <button
-                                key={item.image.src}
-                                type="button"
-                                tabIndex={pageIndex === page ? undefined : -1}
-                                onClick={() => openSlide(index)}
-                                aria-label={`Open behind the scenes media ${index + 1} of ${latestBtsMedia.length}`}
-                                className="relative flex-1 cursor-zoom-in overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-systemcoal focus-visible:ring-offset-2"
-                                style={{ height: RAIL.mobileCardHeight }}
-                              >
-                                <Image
-                                  src={item.image.src}
-                                  alt=""
-                                  aria-hidden="true"
-                                  fill
-                                  sizes="50vw"
-                                  className="object-cover"
-                                />
-                                {playDisc("card")}
-                              </button>
-                            );
-                          })}
-                      </div>
-                    ))}
+                    {Array.from(
+                      {
+                        length: Math.ceil(
+                          pageItems.length / RAIL.mobileColumns,
+                        ),
+                      },
+                      (_, rowIndex) => (
+                        <div key={`row-${rowIndex}`} className="flex gap-4">
+                          {pageItems
+                            .slice(
+                              rowIndex * RAIL.mobileColumns,
+                              (rowIndex + 1) * RAIL.mobileColumns,
+                            )
+                            .map((item, columnIndex) => {
+                              const index =
+                                pageIndex * PER_PAGE +
+                                rowIndex * RAIL.mobileColumns +
+                                columnIndex;
+                              return (
+                                <button
+                                  key={item.image.src}
+                                  type="button"
+                                  tabIndex={pageIndex === page ? undefined : -1}
+                                  onClick={() => openSlide(index)}
+                                  aria-label={`Open behind the scenes media ${index + 1} of ${latestBtsMedia.length}`}
+                                  className="relative flex-1 cursor-zoom-in overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-systemcoal focus-visible:ring-offset-2"
+                                  style={{ height: RAIL.mobileCardHeight }}
+                                >
+                                  <Image
+                                    src={item.image.src}
+                                    alt=""
+                                    aria-hidden="true"
+                                    fill
+                                    sizes="50vw"
+                                    className="object-cover"
+                                  />
+                                  {playDisc("card")}
+                                </button>
+                              );
+                            })}
+                        </div>
+                      ),
+                    )}
                   </div>
                 );
               })}

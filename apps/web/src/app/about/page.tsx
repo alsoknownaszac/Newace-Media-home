@@ -10,6 +10,7 @@ import {
   aboutFounder,
   aboutPromise,
 } from "@/content/about";
+import { ExperienceSection } from "@/components/sections/experience-section";
 
 /**
  * ABOUT - page 2 of 5. Rebuilt 1:1 from Figma node 154:764 (desktop) /
@@ -68,7 +69,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
       {/* 2. Promise - node 154:764 "manifesto-section" (bg mid-gray, centered) */}
       <section className="flex flex-col items-center gap-8 bg-primary-systemmid-gray px-5 py-16 text-center lg:gap-10 lg:px-[100px] lg:py-[120px]">
         <p className="font-body text-xs font-medium text-primary-systemivory">
@@ -81,7 +81,6 @@ export default function AboutPage() {
           {aboutPromise.attribution}
         </p>
       </section>
-
       {/* 3. Founder - node 154:764 "bts-section" (two columns) */}
       <section className="bg-primary-systemivory px-5 py-14 lg:px-[100px] lg:py-[100px]">
         <div className="mx-auto flex max-w-[1240px] flex-col gap-10 lg:flex-row lg:items-center lg:gap-[58px]">
@@ -124,9 +123,8 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
       {/* 4. Experience - node 154:764 "experience-section" */}
-      <section className="bg-[#e7e3dc] px-5 py-14 lg:px-[100px] lg:py-[100px]">
+      {/* <section className="bg-[#e7e3dc] px-5 py-14 lg:px-[100px] lg:py-[100px]">
         <div className="mx-auto flex max-w-[1240px] flex-col gap-12 lg:gap-16">
           <header className="flex max-w-[715px] flex-col gap-4">
             <p className="font-body text-xs font-medium text-primary-systemcoal">
@@ -156,8 +154,8 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
-
+      </section> */}
+      <ExperienceSection />
       {/* 5. Closing CTA - node 154:764 "hero-section" (full-bleed image) */}
       <section className="relative grid h-[520px] w-full overflow-hidden lg:h-[700px]">
         <Image

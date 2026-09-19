@@ -89,7 +89,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${label.variable}`}>
+    <html
+      lang="en"
+      className={`${display.variable} ${body.variable} ${label.variable}`}
+    >
       <body className="flex min-h-dvh flex-col bg-primary-systemivory text-primary-systemcoal">
         <a
           href="#main"

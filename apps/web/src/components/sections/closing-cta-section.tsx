@@ -31,7 +31,7 @@ export function ClosingCtaSection() {
         </div>
         <Button
           asChild
-          className="h-11 rounded-none bg-[#e7e3dc] px-8 font-body text-xs font-medium text-primary-systemcoal hover:bg-primary-systemivory"
+          className="h-11 uppercase rounded-none bg-[#e7e3dc] px-8 font-body text-xs font-medium text-primary-systemcoal hover:bg-primary-systemivory"
         >
           <Link href={closingCta.action.href}>{closingCta.action.label}</Link>
         </Button>

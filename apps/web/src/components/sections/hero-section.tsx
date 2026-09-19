@@ -50,7 +50,11 @@ export function HeroSection() {
             <Button asChild variant="ghost" className={primaryActionClassName}>
               <Link href={hero.actions[0].href}>{hero.actions[0].label}</Link>
             </Button>
-            <Button asChild variant="ghost" className={secondaryActionClassName}>
+            <Button
+              asChild
+              variant="ghost"
+              className={secondaryActionClassName}
+            >
               <Link href={hero.actions[1].href}>{hero.actions[1].label}</Link>
             </Button>
           </div>

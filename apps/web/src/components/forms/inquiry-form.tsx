@@ -8,7 +8,11 @@ import { Controller, useForm, type Control } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -17,8 +21,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { contactFormCopy, eventTypes, referralSources } from "@/content/contact";
-import { inquirySchema, type InquiryInput, type InquiryPayload } from "@/lib/inquiries";
+import {
+  contactFormCopy,
+  eventTypes,
+  referralSources,
+} from "@/content/contact";
+import {
+  inquirySchema,
+  type InquiryInput,
+  type InquiryPayload,
+} from "@/lib/inquiries";
 import { cn } from "@/lib/utils";
 
 /**
@@ -50,7 +62,11 @@ function RequiredMark() {
 
 function formatDate(date: Date | undefined): string {
   return date
-    ? date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })
+    ? date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })
     : contactFormCopy.placeholders.date;
 }
 
@@ -115,13 +131,16 @@ export function InquiryForm() {
 
   return (
     <form
-      className="relative flex min-w-0 flex-1 flex-col gap-10 bg-primary-systemivory p-6 sm:p-10 lg:max-w-[700px] lg:p-12"
+      className="relative flex min-w-0 flex-1 flex-col gap-10 bg-primary-systemivory p-6 sm:p-10 lg:max-w-[760px] lg:p-14"
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
       {isSuccess && (
         <div className="absolute inset-0 z-10 flex animate-fade-in flex-col items-center justify-center gap-6 bg-primary-systemivory p-10 text-center">
-          <CheckCircle2 aria-hidden="true" className="h-16 w-16 text-primary-systemcoal" />
+          <CheckCircle2
+            aria-hidden="true"
+            className="h-16 w-16 text-primary-systemcoal"
+          />
           <h3 className="font-web-heading-h2 text-[length:var(--web-heading-h2-font-size)] font-[number:var(--web-heading-h2-font-weight)] leading-[var(--web-heading-h2-line-height)] tracking-[var(--web-heading-h2-letter-spacing)] text-primary-systemcoal [font-style:var(--web-heading-h2-font-style)]">
             {contactFormCopy.success.heading}
           </h3>
@@ -162,11 +181,15 @@ export function InquiryForm() {
             {...register("fullName")}
             className={cn(
               fieldClassName,
-              errors.fullName ? "border-editorial-accentsburgundy" : "border-[#a69b8d]",
+              errors.fullName
+                ? "border-editorial-accentsburgundy"
+                : "border-[#a69b8d]",
             )}
           />
           {errors.fullName && (
-            <p className="mt-1 text-xs text-editorial-accentsburgundy">{errors.fullName.message}</p>
+            <p className="mt-1 text-xs text-editorial-accentsburgundy">
+              {errors.fullName.message}
+            </p>
           )}
         </div>
 
@@ -185,11 +208,15 @@ export function InquiryForm() {
               {...register("email")}
               className={cn(
                 fieldClassName,
-                errors.email ? "border-editorial-accentsburgundy" : "border-[#a69b8d]",
+                errors.email
+                  ? "border-editorial-accentsburgundy"
+                  : "border-[#a69b8d]",
               )}
             />
             {errors.email && (
-              <p className="mt-1 text-xs text-editorial-accentsburgundy">{errors.email.message}</p>
+              <p className="mt-1 text-xs text-editorial-accentsburgundy">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -207,11 +234,15 @@ export function InquiryForm() {
               {...register("phone")}
               className={cn(
                 fieldClassName,
-                errors.phone ? "border-editorial-accentsburgundy" : "border-[#a69b8d]",
+                errors.phone
+                  ? "border-editorial-accentsburgundy"
+                  : "border-[#a69b8d]",
               )}
             />
             {errors.phone && (
-              <p className="mt-1 text-xs text-editorial-accentsburgundy">{errors.phone.message}</p>
+              <p className="mt-1 text-xs text-editorial-accentsburgundy">
+                {errors.phone.message}
+              </p>
             )}
           </div>
         </div>
@@ -231,10 +262,14 @@ export function InquiryForm() {
                   aria-invalid={Boolean(errors.eventType)}
                   className={cn(
                     triggerClassName,
-                    errors.eventType ? "border-editorial-accentsburgundy" : "border-[#a69b8d]",
+                    errors.eventType
+                      ? "border-editorial-accentsburgundy"
+                      : "border-[#a69b8d]",
                   )}
                 >
-                  <SelectValue placeholder={contactFormCopy.placeholders.select} />
+                  <SelectValue
+                    placeholder={contactFormCopy.placeholders.select}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {eventTypes.map((type) => (
@@ -247,7 +282,9 @@ export function InquiryForm() {
             )}
           />
           {errors.eventType && (
-            <p className="mt-1 text-xs text-editorial-accentsburgundy">{errors.eventType.message}</p>
+            <p className="mt-1 text-xs text-editorial-accentsburgundy">
+              {errors.eventType.message}
+            </p>
           )}
         </div>
 
@@ -283,11 +320,15 @@ export function InquiryForm() {
             {...register("location")}
             className={cn(
               fieldClassName,
-              errors.location ? "border-editorial-accentsburgundy" : "border-[#a69b8d]",
+              errors.location
+                ? "border-editorial-accentsburgundy"
+                : "border-[#a69b8d]",
             )}
           />
           {errors.location && (
-            <p className="mt-1 text-xs text-editorial-accentsburgundy">{errors.location.message}</p>
+            <p className="mt-1 text-xs text-editorial-accentsburgundy">
+              {errors.location.message}
+            </p>
           )}
         </div>
 
@@ -306,10 +347,14 @@ export function InquiryForm() {
                   aria-invalid={Boolean(errors.howDidYouHear)}
                   className={cn(
                     triggerClassName,
-                    errors.howDidYouHear ? "border-editorial-accentsburgundy" : "border-[#a69b8d]",
+                    errors.howDidYouHear
+                      ? "border-editorial-accentsburgundy"
+                      : "border-[#a69b8d]",
                   )}
                 >
-                  <SelectValue placeholder={contactFormCopy.placeholders.select} />
+                  <SelectValue
+                    placeholder={contactFormCopy.placeholders.select}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {referralSources.map((source) => (
@@ -344,7 +389,13 @@ export function InquiryForm() {
         {/* Honeypot: hidden from people, filled in by bots. The API drops those. */}
         <div className="hidden" aria-hidden="true">
           <label htmlFor="company">Company</label>
-          <input id="company" type="text" tabIndex={-1} autoComplete="off" {...register("company")} />
+          <input
+            id="company"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            {...register("company")}
+          />
         </div>
       </div>
 
@@ -357,7 +408,7 @@ export function InquiryForm() {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="h-11 w-full rounded-none bg-primary-systemcoal px-8 py-4 font-web-label-s text-[length:var(--web-label-s-font-size)] font-[number:var(--web-label-s-font-weight)] leading-[var(--web-label-s-line-height)] tracking-[var(--web-label-s-letter-spacing)] text-primary-systemivory transition-colors hover:bg-primary-systemcoal/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-70 [font-style:var(--web-label-s-font-style)]"
+        className="h-11 w-full uppercase rounded-none bg-primary-systemcoal px-8 py-4 font-web-label-s text-[length:var(--web-label-s-font-size)] font-[number:var(--web-label-s-font-weight)] leading-[var(--web-label-s-line-height)] tracking-[var(--web-label-s-letter-spacing)] text-primary-systemivory transition-colors hover:bg-primary-systemcoal/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-70 [font-style:var(--web-label-s-font-style)]"
       >
         {isSubmitting ? contactFormCopy.submitting : contactFormCopy.submit}
       </Button>
@@ -402,25 +453,36 @@ function DatePickerField({
                 aria-labelledby={`${name}-label`}
                 className={cn(
                   "h-auto justify-between rounded-none border-0 border-b bg-transparent px-0 pb-3 pt-0 font-web-body-XS text-[length:var(--web-body-XS-font-size)] font-[number:var(--web-body-XS-font-weight)] leading-[var(--web-body-XS-line-height)] tracking-[var(--web-body-XS-letter-spacing)] transition-colors hover:bg-transparent hover:text-primary-systemcoal focus-visible:border-primary-systemcoal focus-visible:outline-none [font-style:var(--web-body-XS-font-style)]",
-                  field.value ? "text-primary-systemcoal" : "text-primary-systemwarm-gray",
-                  hasError ? "border-editorial-accentsburgundy" : "border-[#a69b8d]",
+                  field.value
+                    ? "text-primary-systemcoal"
+                    : "text-primary-systemwarm-gray",
+                  hasError
+                    ? "border-editorial-accentsburgundy"
+                    : "border-[#a69b8d]",
                 )}
               >
                 {formatDate(field.value)}
-                <CalendarIcon aria-hidden="true" className="mr-3 h-4 w-4 text-primary-systemcoal" />
+                <CalendarIcon
+                  aria-hidden="true"
+                  className="mr-3 h-4 w-4 text-primary-systemcoal"
+                />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
-              <Calendar mode="single" selected={field.value} onSelect={field.onChange} />
+              <Calendar
+                mode="single"
+                selected={field.value}
+                onSelect={field.onChange}
+              />
             </PopoverContent>
           </Popover>
         )}
       />
       {hasError && errorMessage && (
-        <p className="mt-1 text-xs text-editorial-accentsburgundy">{errorMessage}</p>
+        <p className="mt-1 text-xs text-editorial-accentsburgundy">
+          {errorMessage}
+        </p>
       )}
     </div>
   );
 }
-
-

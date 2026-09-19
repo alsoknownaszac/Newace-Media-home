@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { portfolioIntro } from "@/content/portfolio";
 
 const primaryActionClassName =
-  "h-11 rounded-none bg-primary-systemcoal px-8 py-4 font-web-label-s text-[length:var(--web-label-s-font-size)] font-[number:var(--web-label-s-font-weight)] leading-[var(--web-label-s-line-height)] tracking-[var(--web-label-s-letter-spacing)] text-primary-systemivory transition-colors hover:bg-primary-systemcoal/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [font-style:var(--web-label-s-font-style)]";
+  "w-full h-11 rounded-none bg-primary-systemcoal px-8 py-4 font-web-label-s text-[length:var(--web-label-s-font-size)] font-[number:var(--web-label-s-font-weight)] leading-[var(--web-label-s-line-height)] tracking-[var(--web-label-s-letter-spacing)] text-primary-systemivory transition-colors hover:bg-primary-systemcoal/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [font-style:var(--web-label-s-font-style)]";
 
 const secondaryActionClassName =
   "h-11 rounded-none px-0 py-3 font-web-label-s text-[length:var(--web-label-s-font-size)] font-[number:var(--web-label-s-font-weight)] leading-[var(--web-label-s-line-height)] tracking-[var(--web-label-s-letter-spacing)] text-primary-systemcoal transition-colors hover:bg-transparent hover:text-primary-systemwarm-gray focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [font-style:var(--web-label-s-font-style)]";
@@ -43,10 +43,10 @@ export function PortfolioPreviewSection() {
           {portfolioIntro.summary}
         </p>
         <div className="flex flex-wrap items-center gap-6">
-          <Button asChild variant="ghost" className={primaryActionClassName}>
+          {/* <Button asChild variant="ghost" className={primaryActionClassName}>
             <Link href="/contact">START A CONVERSATION</Link>
-          </Button>
-          <Button asChild variant="ghost" className={secondaryActionClassName}>
+          </Button> */}
+          <Button asChild variant="ghost" className={primaryActionClassName}>
             <Link href="/portfolio">VIEW PORTFOLIO →</Link>
           </Button>
         </div>
