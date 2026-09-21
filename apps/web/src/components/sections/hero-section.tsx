@@ -73,7 +73,7 @@ export function HeroSection() {
 
   return (
     <section className="flex w-full flex-col bg-primary-systemivory">
-      <div className="relative h-[540px] w-full lg:h-[760px]">
+      <div className="relative h-[580px] w-full lg:h-[760px]">
         {heroSlides.map((slide, index) => (
           <Image
             key={slide.src}
