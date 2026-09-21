@@ -25,7 +25,7 @@ export function FounderBioSection() {
         width={founderBio.portrait.width}
         height={founderBio.portrait.height}
         sizes="(max-width: 1024px) 38vw, 432px"
-        className="w-[100%] h-[420px] lg:h-[unset] lg:h-full self-stretch object-cover lg:w-[432px]"
+        className="w-[100%] h-[420px] sm:h-[620px] md:h-[720px] lg:h-[unset] lg:h-full self-stretch object-cover object-top lg:object-center lg:w-[432px]"
       />
 
       <article className="flex min-w-0 flex-1 flex-col items-start justify-center gap-3 sm:gap-5 lg:w-[604px] lg:flex-none lg:gap-7 mt-5 lg:mt-0">
@@ -46,7 +46,7 @@ export function FounderBioSection() {
           </div>
         </header>
 
-        <div className="flex flex-col gap-2 font-web-body-s text-xs font-[number:var(--web-body-s-font-weight)] leading-[var(--web-body-s-line-height)] tracking-[var(--web-body-s-letter-spacing)] text-primary-systemcoal sm:gap-3 sm:text-sm lg:gap-2 lg:text-[length:var(--web-body-s-font-size)] [font-style:var(--web-body-s-font-style)]">
+        <div className="flex flex-col gap-2 font-web-body-s text-sm font-[number:var(--web-body-s-font-weight)] leading-[var(--web-body-s-line-height)] tracking-[var(--web-body-s-letter-spacing)] text-primary-systemcoal sm:gap-3 sm:text-sm lg:gap-2 lg:text-[length:var(--web-body-s-font-size)] [font-style:var(--web-body-s-font-style)]">
           {founderBio.paragraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}

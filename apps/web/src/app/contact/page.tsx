@@ -35,11 +35,33 @@ export const metadata: Metadata = {
 };
 
 const contactChannels = [
-  { label: "EMAIL US", value: "photos@newacemedia.com" },
-  { label: "WHATSAPP", value: "+234 (0) 7039948500" },
-  { label: "TELEPHONE", value: "+234 (0) 9036729937" },
-  { label: "INSTAGRAM", value: "@newacemedia" },
+  {
+    label: "EMAIL US",
+    value: "photos@newacemedia.com",
+    href: "mailto:photos@newacemedia.com",
+  },
+  {
+    label: "WHATSAPP",
+    value: "+234 (0) 7039948500",
+    href: "https://wa.me/2347039948500",
+  },
+  {
+    label: "TELEPHONE",
+    value: "+234 (0) 9036729937",
+    href: "tel:+2349036729937",
+  },
+  {
+    label: "INSTAGRAM",
+    value: "@newacemedia",
+    href: "https://instagram.com/newacemedia",
+  },
 ];
+
+const addressChannel = {
+  label: "Address",
+  value: "100, Effurun Sapele Road, Delta State",
+  href: "https://maps.google.com/?q=NewAce+Media+Effurun-Sapele+Road,+Warri,+Delta+State,+Nigeria",
+};
 
 export default function ContactPage() {
   return (
@@ -102,16 +124,36 @@ export default function ContactPage() {
                     {channel.label}
                   </dt>
                   <dd className="mt-1 font-body text-base font-medium text-primary-systemcoal">
-                    {channel.value}
+                    <a
+                      href={channel.href}
+                      target={
+                        channel.href.startsWith("http") ? "_blank" : undefined
+                      }
+                      rel={
+                        channel.href.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                      className="hover:underline"
+                    >
+                      {channel.value}
+                    </a>
                   </dd>
                 </div>
               ))}
               <div>
                 <dt className="font-body text-sm font-normal text-[#a69b8d]">
-                  Address
+                  {addressChannel.label}
                 </dt>
                 <dd className="mt-1 font-body text-base font-medium text-primary-systemcoal">
-                  100, Effurun Sapele Road, Delta State
+                  <a
+                    href={addressChannel.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    {addressChannel.value}
+                  </a>
                 </dd>
               </div>
             </dl>

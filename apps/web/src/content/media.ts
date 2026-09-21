@@ -17,6 +17,7 @@ export interface MediaAsset {
   readonly src: string;
   readonly width: number;
   readonly height: number;
+  focalPoint?: string; // optional CSS object-position value, e.g. "50% 20%"
 }
 
 export const media = {
@@ -46,21 +47,41 @@ export const media = {
   gallery5: { src: "/images/rectangle-5.webp", width: 1920, height: 1280 },
 
   /** Founder portrait (About page + home bio). */
-  founderPortrait: { src: "/images/rectangle-1-5.webp", width: 1280, height: 1920 },
+  founderPortrait: {
+    src: "/images/rectangle-1-5.webp",
+    width: 1280,
+    height: 1920,
+  },
 
   /** Square couple portrait used in the testimonial block. */
-  testimonialPortrait: { src: "/images/rectangle-1-4.webp", width: 400, height: 400 },
+  testimonialPortrait: {
+    src: "/images/rectangle-1-4.webp",
+    width: 400,
+    height: 400,
+  },
 
   /** Full-bleed closing call-to-action backdrop. */
   ctaBackdrop: { src: "/images/rectangle-6.webp", width: 1440, height: 700 },
 
   /** About page banner + journal cards. */
   aboutBanner: { src: "/images/rectangle-15.webp", width: 1280, height: 1920 },
-  journalPrimary: { src: "/images/rectangle-15.webp", width: 1280, height: 1920 },
-  journalSecondary: { src: "/images/rectangle-15-1.webp", width: 598, height: 344 },
+  journalPrimary: {
+    src: "/images/rectangle-15.webp",
+    width: 1280,
+    height: 1920,
+  },
+  journalSecondary: {
+    src: "/images/rectangle-15-1.webp",
+    width: 598,
+    height: 344,
+  },
 
   /** Contact page - portrait beside the inquiry form. */
-  contactCompanion: { src: "/images/rectangle-1-6.webp", width: 1280, height: 1920 },
+  contactCompanion: {
+    src: "/images/rectangle-1-6.webp",
+    width: 1280,
+    height: 1920,
+  },
 } as const satisfies Record<string, MediaAsset>;
 
 export type MediaKey = keyof typeof media;

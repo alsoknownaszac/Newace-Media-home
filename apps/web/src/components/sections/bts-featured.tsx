@@ -4,7 +4,11 @@ import Image from "next/image";
 import { Play } from "lucide-react";
 import { useMemo } from "react";
 
-import { PhotoLightbox, usePhotoLightbox, type LightboxImage } from "@/components/media/photo-lightbox";
+import {
+  PhotoLightbox,
+  usePhotoLightbox,
+  type LightboxImage,
+} from "@/components/media/photo-lightbox";
 import { btsFeatured } from "@/content/bts";
 
 /**
@@ -17,7 +21,13 @@ import { btsFeatured } from "@/content/bts";
  */
 export function BtsFeatured() {
   const images = useMemo<LightboxImage[]>(
-    () => [{ src: btsFeatured.src, width: btsFeatured.width, height: btsFeatured.height }],
+    () => [
+      {
+        src: btsFeatured.src,
+        width: btsFeatured.width,
+        height: btsFeatured.height,
+      },
+    ],
     [],
   );
 
@@ -42,11 +52,6 @@ export function BtsFeatured() {
             priority
             className="h-[360px] w-full object-cover lg:h-[550px]"
           />
-          <span className="absolute inset-0 flex items-center justify-center">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-primary-systemcoal lg:h-14 lg:w-14">
-              <Play className="ml-0.5 h-5 w-5 fill-current lg:h-6 lg:w-6" />
-            </span>
-          </span>
         </button>
       </section>
 

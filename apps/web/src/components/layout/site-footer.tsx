@@ -69,11 +69,13 @@ export function SiteFooter() {
               key={image.src}
               src={image.src}
               alt=""
+              quality={90}
               aria-hidden="true"
               width={image.width}
               height={image.height}
-              sizes="20vw"
+              sizes="(max-width: 1024px) 20vw, 300px"
               className="h-[162px] w-full object-cover"
+              style={{ objectPosition: image.focalPoint ?? "center" }}
             />
           ))}
         </div>

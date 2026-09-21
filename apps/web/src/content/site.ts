@@ -70,7 +70,7 @@ export const footerNavigation: readonly (readonly SiteLink[])[] = [
 export const socialLinks: readonly SiteSocialLink[] = [
   {
     label: "Instagram",
-    href: "https://instagram.com/",
+    href: "https://instagram.com/newacemedia",
     icon: "/icons/akar-icons-instagram-fill.svg",
     iconWidth: 24,
     iconHeight: 24,
@@ -78,7 +78,7 @@ export const socialLinks: readonly SiteSocialLink[] = [
   },
   {
     label: "Facebook",
-    href: "https://facebook.com/",
+    href: "https://facebook.com/newacemedia",
     icon: "/icons/basil-facebook-outline.svg",
     iconWidth: 24,
     iconHeight: 24,
@@ -104,11 +104,11 @@ export const socialLinks: readonly SiteSocialLink[] = [
 
 /** Footer image strip (287x162 each, 1px gap). */
 export const footerStrip: readonly MediaAsset[] = [
-  media.gallery17,
-  media.gallery22,
-  media.gallery33,
-  media.gallery44,
-  media.gallery5,
+  { ...media.gallery17, focalPoint: "50% 20%" }, // bride on stairs — pull up slightly
+  { ...media.gallery22, focalPoint: "center" }, // table setting — fine centered
+  { ...media.gallery33, focalPoint: "70% 15%" }, // bridesmaids — faces near top, crop up
+  { ...media.gallery44, focalPoint: "20% 80%" }, // couple — subject shifted right, crop right
+  { ...media.gallery5, focalPoint: "center" }, // groomsmen at bar — fine centered
 ];
 
 /** Social / map links grouped into the two columns shown in the Figma footer. */

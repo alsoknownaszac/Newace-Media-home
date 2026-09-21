@@ -111,7 +111,7 @@ export default function AboutPage() {
               width={aboutFounder.portrait.width}
               height={aboutFounder.portrait.height}
               sizes="(max-width: 1024px) 100vw, 604px"
-              className="h-[420px] w-full object-cover lg:h-[528px] lg:w-[604px]"
+              className="h-[420px] sm:h-[620px] md:h-[720px] lg:h-[unset] w-full object-cover object-top lg:object-center lg:h-[528px] lg:w-[604px]"
             />
             <div className="flex flex-col gap-2">
               <p className="font-body text-xs font-medium text-primary-systemcoal">
